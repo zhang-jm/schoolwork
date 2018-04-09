@@ -1,0 +1,102 @@
+import java.awt.*;
+import objectdraw.*;
+
+public class CSE11_Line extends Shape
+
+  private Point start;
+  private Point end;
+ 
+  public CSE11_Line() 
+  { 
+    this(new Point(), new Point());
+  }
+ 
+  public CSE11_Line( Point start, Point end ) 
+  {
+    super(new String("CSE11_Line"));
+
+    this.setStart(start);
+    this.setEnd(end);    
+  }
+ 
+  public CSE11_Line( CSE11_Line line ) 
+  {
+    this(new Point(line.getStart()), new Point(line.getEnd());
+  }
+
+  public Point getStart()
+  {
+    return this.start;
+  }
+
+  public Point getEnd()
+  {
+    return this.end;
+  }
+ 
+  private void setStart(Point start)
+  {
+    this.start = start;
+  }
+
+  private void setEnd(Point end)
+  {
+    this.end = end;
+  }
+
+  public void move( int xDelta, int yDelta )
+  {
+    this.start.move(xDelta, yDelta);
+    this.end.move(xDelta, yDelta);
+  }
+ 
+  @Override
+  public String toString() 
+  {
+    return super.getName() + ": " + start.toString() + " to " +
+	   end.toString();
+  }
+ 
+  @Override
+  public boolean equals( Object o ) 
+  {
+    if(o == null)
+    {
+      return false;
+    }
+    else
+    {
+      if(o instanceof CSE11_Line)
+      {
+        if(((CSE11_Line)o).getStart() == this.getStart() && 
+	   ((CSE11_Line)o).getEnd() == this.getEnd())
+	{
+          return true;
+	}
+        else
+	{
+          return false;
+	}
+      }
+      else
+      {
+        return false;
+      }
+    }
+  }
+ 
+  @Override
+  public int hashCode()
+  {
+    return this.toString().hashCode();
+  }
+ 
+  public void draw( DrawingCanvas canvas, Color c, boolean fill ) 
+  {
+    Line line = new Line(this.getStart.getX(), this.getStart.getY(), 
+		    this.getEnd.getX(), this.getEnd.getY(), canvas);
+    line.setColor(c);
+  }
+
+}
+

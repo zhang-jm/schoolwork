@@ -1,0 +1,114 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 4, 2014
+* File: Critter.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA9
+*
+* Abstract class extended by the various critters.
+*/
+
+import objectdraw.*;
+
+/*
+* Name: Critter
+* Purpose: Class extended by the critters.
+*/
+public abstract class Critter
+{
+  protected Location loc;
+  protected DrawingCanvas canvas;
+
+  public static final int SIZE = 15;
+  public static final double HALF_SIZE = SIZE / 2;
+  public static final int NUM_LOCATIONS = 8;
+
+  /*
+  * Name: Critter
+  * Purpose: Sets location and canvas.
+  * Parameters: loc - left hand corner location
+  *             canvas - canvas to be drawn on
+  */ 
+  public Critter(Location loc, DrawingCanvas canvas)
+  {
+    this.loc = loc;
+    this.canvas = canvas;
+  }
+
+  /*
+  * Name: getSurroundingLocations
+  * Purpose: Gets 8 surrounding locations and returns them in an array.
+  * Parameters: distance - pixel length away
+  * Return: Location[]
+  */ 
+  public Location[] getSurroundingLocations(int distance)
+  {
+    Location[] locations = new Location[NUM_LOCATIONS];
+    int num = 0;
+
+    locations[num++] = new Location(loc.getX() - distance, 
+		    loc.getY() - distance);
+    locations[num++] = new Location(loc.getX(), loc.getY() - distance);
+    locations[num++] = new Location(loc.getX() + distance, 
+		    loc.getY() - distance);
+    locations[num++] = new Location(loc.getX() + distance, loc.getY());
+    locations[num++] = new Location(loc.getX() + distance, 
+		    loc.getY() + distance);
+    locations[num++] = new Location(loc.getX(), loc.getY() + distance);
+    locations[num++] = new Location(loc.getX() - distance, 
+		    loc.getY() + distance);
+    locations[num++] = new Location(loc.getX() - distance, loc.getY());
+
+    return locations;
+  }
+
+  /*
+  * Name: getLocation
+  * Purpose: Gets the location.
+  * Parameters: none
+  * Return: Location
+  */ 
+  public Location getLocation()
+  {
+    return loc;
+  }
+
+  /*
+  * Name: distanceTo
+  * Purpose: Calculates the distance between two critters.
+  * Parameters: crit - a second critter
+  * Return: double
+  */   
+  public double distanceTo(Critter crit)
+  {
+    double x1 = this.loc.getX();
+    double x2 = crit.getLocation().getX();
+    double y1 = this.loc.getY();
+    double y2 = crit.getLocation().getY();
+
+    double d = Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
+
+    return d;
+  }
+
+  /*
+  * Name: setLocation
+  * Purpose: Sets the location.
+  * Parameters: loc - a location
+  * Return: void
+  */ 
+  public void setLocation(Location loc)
+  {
+    this.loc = loc;
+  }
+
+  /*
+  * Name: reactTo
+  * Purpose: Reacts to another critter.
+  * Parameters: other - another critter
+  * Return: void
+  */ 
+  public abstract void reactTo(Critter other);  
+  public abstract void kill();
+}

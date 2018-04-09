@@ -1,0 +1,202 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: October 27, 2014
+* File: ResizablePacMan.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs
+* 
+* This program contains all the attributes and behaviors of a ResizablePacMan
+* object. The constructor can be called to create a new ResizablePacMan object
+* and the methods can be called to manipulate PacMan in various ways.
+*/
+
+import java.awt.Color; 
+import objectdraw.*; 
+
+/*
+* Name: ResizablePacMan
+* Purpose: To define a ResizablePacMan object with various attributes 
+* and behaviors.
+*/
+public class ResizablePacMan extends ActiveObject 
+{ 
+  private static final double PAUSE_TIME = 33; 
+  //how much PacMan should grow and shrink each time it's resized
+  private static final double GROWTH = 2;
+  //used to draw PacMan
+  private static final double START_ANGLE = 0;
+  private static final double ARC_ANGLE = 300; 
+  //used when rotating PacMan
+  private static final double MAX_DEGREES = 360; 
+
+  //used to halve numbers
+  private static final double HALF = 0.5;
+ 
+  private final int CHANGE_ANGLE = 7; 
+  private double newStartAngle = START_ANGLE; 
+
+  //starting PacMan size, and the max and min size PacMan grows and shrinks to
+  private double startSize = 60; 
+  private double maxSize = 120;
+  private double minSize = 30;
+ 
+  private FilledArc pacMan; 
+  private Location center; 
+  private Line vLine; 
+  private Line hLine; 
+  
+  //used to find the x value of the line
+  private Location vLineLocation;
+  //used to find the y value of the line
+  private Location hLineLocation;
+
+  //holds the height and half the height of PacMan
+  private double pacManHeight;
+  private double halfHeight;
+  
+  //checks if PacMan is growing larger in size or not
+  private boolean growingLarger = true;
+
+
+  /*
+  * Name: ResizablePacMan
+  * Purpose: Initializes all variables within the ResizablePacMan object when
+  * it is created by taking in parameters.
+  * Parameters: center - the center point of PacMan
+  *             size - the original size of PacMan
+  *             canvas - the place where PacMan is drawn
+  *             hLine - horizontal line used to define the quadrants
+  *             vLine - vertical line used to define the quadrants
+  */
+  public ResizablePacMan(Location center, double size, DrawingCanvas canvas,
+		         Line hLine, Line vLine)
+  {
+    halfHeight = size * HALF;
+    
+    //moves PacMan so that its center will be at the location of the click
+    this.center = center;
+    center.translate(-halfHeight, -halfHeight);
+
+    //creates PacMan
+    pacMan = new FilledArc(center, size, size, START_ANGLE, ARC_ANGLE, canvas);
+    
+    this.vLine = vLine;
+    this.hLine = hLine;
+    
+    //calls the run method
+    start();
+  }
+ 
+  /*
+  * Name: run
+  * Purpose: Runs the animation by manipulating the object.
+  * Parameters: none
+  * Return: void
+  */
+  public void run()
+  {
+    while(true) //loops forever
+    {
+      //changes the size of PacMan
+      if(pacMan.getHeight() < maxSize && growingLarger)
+      {
+        this.growLarger();
+      }
+      else if(pacMan.getHeight() >= maxSize)
+      {
+        this.growSmaller();
+	growingLarger = false;
+      }
+      else if(pacMan.getHeight() <= minSize)
+      {
+       	this.growLarger();
+	growingLarger = true;
+      }
+      else if(pacMan.getHeight() < maxSize && !growingLarger)
+      {
+        this.growSmaller();
+      }
+      
+      //resets the start angle so that PacMan rotates
+      newStartAngle = (newStartAngle + CHANGE_ANGLE) % MAX_DEGREES;
+      pacMan.setStartAngle(newStartAngle);
+		    
+      //checks and updates PacMan's color if it has moved to a different
+      //quadrant
+      this.updatePacManColor();  
+ 
+      //used to make PacMan look animated
+      pause(PAUSE_TIME);
+    }
+  }
+
+  /*
+  * Name: updatePacManColor
+  * Purpose: Checks the location of PacMan in relation to the four quadrants
+  * and updates PacMan's color if PacMan has moved to a different quadrant
+  * Parameters: none
+  * Return: void
+  */
+  public void updatePacManColor()
+  {
+    halfHeight = pacMan.getHeight() * HALF;
+    
+    //checks where the lines are on the canvas
+    vLineLocation = vLine.getStart();
+    hLineLocation = hLine.getStart();
+    
+    //if in lower right quadrant
+    if(pacMan.getX() + halfHeight > vLineLocation.getX() && 
+       pacMan.getY() + halfHeight > hLineLocation.getY())
+    {
+      pacMan.setColor(Color.BLACK);
+    }
+    //if in upper right quadrant
+    else if(pacMan.getX() + halfHeight > vLineLocation.getX() &&
+	    pacMan.getY() + halfHeight < hLineLocation.getY())
+    {
+      pacMan.setColor(Color.CYAN);
+    }
+    //if in lower left quadrant
+    else if(pacMan.getX() + halfHeight < vLineLocation.getX() &&
+	    pacMan.getY() + halfHeight > hLineLocation.getY())
+    {
+      pacMan.setColor(Color.YELLOW);
+    }
+    //if in upper left quadrant
+    else if(pacMan.getX() + halfHeight < vLineLocation.getX() &&
+	    pacMan.getY() + halfHeight < hLineLocation.getY())
+    {
+      pacMan.setColor(Color.MAGENTA);
+    }
+  }
+
+  /*
+  * Name: growLarger
+  * Purpose: Increases the size of PacMan
+  * Parameters: none
+  * Return: void
+  */
+  public void growLarger()
+  {
+     //resizes PacMan
+     pacMan.setSize(pacMan.getHeight() + GROWTH, pacMan.getWidth() + GROWTH);
+     //moves PacMan so it looks like it is increasing around the center
+     pacMan.move(-GROWTH * HALF, -GROWTH * HALF);
+  }
+  
+  /*
+  * Name: growSmaller
+  * Purpose: Decreases the size of PacMan
+  * Parameters: none
+  * Return: void
+  */
+  public void growSmaller()
+  { 
+    //resizes PacMan
+    pacMan.setSize(pacMan.getHeight() - GROWTH, pacMan.getWidth() - GROWTH);
+    //moves PacMan so it looks like it is decreasing around the center
+     pacMan.move(GROWTH * HALF, GROWTH * HALF);
+  }
+  
+} //end class ResizablePacMan

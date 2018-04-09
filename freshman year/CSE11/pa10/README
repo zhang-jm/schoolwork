@@ -1,0 +1,50 @@
+Name: Jamie Zhang
+ID: cs11fmd
+Date: Dec 11, 2014
+File: README
+Sources of Help: none
+
+Program Description:
+This assignment is a library of shapes.
+Each shape has a name and a number of points that are used
+to draw the shape in a location on a canvas. 
+The shapes that can be drawn are:
+Rectangle
+Square
+Triangle
+Line
+Circle
+
+You can create a shape by setting points and size.
+For a rectangle, you can set its upper left corner point, width, and height.
+For a square, you can set its upper left corner point and side length.
+For a triangle, you can set the three points that make up the triangle.
+For a line, you can set the two endpoints.
+For a circle, you can set the center point of the circle and the radius.
+
+Each shape can be  manipulated in various ways.
+move() will move the shape a number of pixels in the x direction and a number
+of pixels in the y direction.
+toString() will return the shape's name, points, and size (if applicable)
+and print it.
+equals() will check if two shapes are the same.
+hashCode() will return the shape as an unique integer.
+draw() will draw the shape on the canvas (you can choose whether or not
+you want the shape to be filled or not, and you can choose the color).
+
+With these shapes, you can draw pictures.
+
+
+Short Answer: 
+1. You could use "==" to test if line1 and line2 are referencing 
+the same object or not. If they are, then the copy constructor 
+is not doing a deep copy. 
+2. We assume that when we call the constructor to initialize line1 and 
+line2 that setStart() and setEnd() create new points from the 2 points that are 
+passed in as actual arguments. Therefore, point1 and point2 in line1 are
+different objects from point1 and point2 in line2. So, if we run
+the equals() method and the return value is false, we know that 
+the method is doing a shallow comparison, because it is comparing 
+the references. If the return value is true, we know that the method
+is doing a deep comparison because it is comparing the x and y values of the
+points (which are the same for both lines).

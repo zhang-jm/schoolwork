@@ -1,0 +1,62 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 4, 2014
+* File: Imitator.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA9
+*
+* A critter that imitates the critter closest to it (except for other
+* imitators).
+*/
+
+import objectdraw.*;
+import java.awt.Color;
+
+/*
+* Name: Imitator
+* Purpose: A critter imitates the critter closest to it (except other 
+* imitators).
+*/
+public class Imitator extends Critter
+{
+  private Location loc1;
+  private Location loc2;
+  private Location loc3;
+
+  private Line line1;
+  private Line line2;
+  private Line line3;
+
+  public Imitator(Location loc, DrawingCanvas canvas)
+  {
+    super(loc, canvas);
+
+    loc1 = new Location(loc.getX(), loc.getY() - super.HALF_SIZE);
+    loc2 = new Location(loc.getX() - super.HALF_SIZE,
+		        loc.getY() + super.HALF_SIZE);
+    loc3 = new Location(loc.getX() + super.HALF_SIZE,
+		        loc.getY() + super.HALF_SIZE);    
+
+    if(loc1.getY() >= 0 &&
+       loc2.getX() >= 0 && loc2.getY() <= canvas.getHeight() &&
+       loc3.getX() <= canvas.getWidth() && 
+       loc3.getY() <= canvas.getHeight())
+    {
+      line1 = new Line(loc1, loc2, canvas);
+      line2 = new Line(loc2, loc3, canvas);
+      line3 = new Line(loc3, loc1, canvas);
+    }
+  }
+
+  public void reactTo(Critter other)
+  {
+  }
+
+  public void kill()
+  {
+    line1.removeFromCanvas();
+    line2.removeFromCanvas();
+    line3.removeFromCanvas();
+  }
+}

@@ -1,0 +1,100 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 4, 2014
+* File: Random.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA9
+*
+* A critter that runs around randomly.
+*/
+
+import objectdraw.*;
+import java.awt.Color;
+
+/*
+* Name: Random
+* Purpose: A critter that moves randomly.
+*/
+public class Random extends Critter
+{
+  private Location loc1;
+  private Location loc2;
+  private Location loc3;
+  private Location loc4;
+
+  private Line line1;
+  private Line line2;
+
+  private int distance = 10;
+  
+  public Random(Location loc, DrawingCanvas canvas)
+  {		    
+    super(loc, canvas);   
+	  
+    loc1 = new Location(loc.getX(),
+		        loc.getY() - super.HALF_SIZE);
+    loc2 = new Location(loc.getX(),
+		        loc.getY() + super.HALF_SIZE);
+    loc3 = new Location(loc.getX() - super.HALF_SIZE,
+		        loc.getY());
+    loc4 = new Location(loc.getX() + super.HALF_SIZE,
+		        loc.getY()); 
+
+    if(loc1.getY() >= 0 && 
+       loc2.getY() <= canvas.getHeight() &&
+       loc3.getX() >= 0 &&
+       loc4.getX() <= canvas.getWidth())
+    {
+       line1 = new Line(loc1, loc2, canvas);
+       line2 = new Line(loc3, loc4, canvas);
+
+       line1.setColor(Color.ORANGE);
+       line2.setColor(Color.ORANGE);
+    }	  
+  }	
+
+  /*
+  * Name: reactTo
+  * Purpose: Reacts to other critters, moves randomly
+  * Parameters: other - another critter
+  * Return: void
+  */   
+  public void reactTo(Critter other)
+  {
+    RandomIntGenerator random = 
+	    new RandomIntGenerator((int)(super.loc.getX() - distance),
+		                ((int)super.loc.getX() + distance));
+    RandomIntGenerator random2 = 
+	    new RandomIntGenerator(((int)loc.getY() - distance),
+		                 ((int)loc.getY() + distance));
+
+    int x; 
+    int y; 
+
+    do
+    {
+      x = random.nextValue();
+      y = random2.nextValue();
+    }while(x <= 0 && x >= canvas.getWidth() && y <= 0 && 
+		    y >= canvas.getHeight());
+
+
+    line1.moveTo(x + super.HALF_SIZE, y);
+    line2.moveTo(x, y + super.HALF_SIZE);
+
+    super.setLocation(new Location(x, y));
+  }
+
+  /*
+  * Name: kill
+  * Purpose: removes critter from canvas
+  * Parameters: none
+  * Return: void
+  */ 
+  public void kill()
+  {
+    line1.removeFromCanvas();
+    line2.removeFromCanvas();    
+  }  
+}

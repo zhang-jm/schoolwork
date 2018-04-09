@@ -1,0 +1,110 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 4, 2014
+* File: Runner.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA9
+*
+* A critter that runs away from other critters (including other runners).
+*/
+
+import objectdraw.*;
+import java.awt.Color;
+
+/*
+* Name: Runner
+* Purpose: A critter that runs away from other critters
+* (including other runners).
+*/
+public class Runner extends Critter
+{
+  private Location loc;
+  private FilledRect newRunner;
+
+  private Location[] locations;
+  
+  public Runner(Location loc, DrawingCanvas canvas)
+  {
+    super(loc, canvas); 
+
+    this.loc = new Location(loc.getX() - super.HALF_SIZE, 
+		            loc.getY() - super.HALF_SIZE);
+		      
+    if(this.loc.getX() + super.SIZE <= canvas.getWidth() &&
+       this.loc.getX() >= 0 && 
+       this.loc.getY() + super.SIZE <= canvas.getHeight() &&
+       this.loc.getY() >= 0)
+    {
+      newRunner = new FilledRect(this.loc, super.SIZE, super.SIZE, canvas);
+      newRunner.setColor(Color.CYAN);
+    }    
+  }
+
+  /*
+  * Name: reactTo
+  * Purpose: Reacts to other critters, runs away
+  * Parameters: other - another critter
+  * Return: void
+  */   
+  public void reactTo(Critter other)
+  {
+    if(other == null)
+    {
+      return;
+    }
+    else if(other instanceof Runner ||
+	    other instanceof Chaser ||
+	    other instanceof Random ||
+	    other instanceof Imitator)
+    {
+      locations = super.getSurroundingLocations(1);
+
+      Location furthest = locations[0];
+
+      int i = 0;
+      double distance = furthest.distanceTo(other.getLocation());
+      while(i < locations.length)
+      {
+	if(locations[i].distanceTo(other.getLocation()) > distance)
+	{
+	  furthest = locations[i];
+      	  distance = locations[i].distanceTo(other.getLocation());
+	}   
+
+	if(locations[i].getX() <= 1 || 
+	    locations[i].getX() >= canvas.getWidth() - super.SIZE - 1 ||
+	    locations[i].getY() <= 1 || 
+	    locations[i].getY() >= canvas.getHeight() - super.SIZE - 1)
+	{
+          RandomIntGenerator random = 
+	     new RandomIntGenerator(1, canvas.getWidth() - super.SIZE - 1);
+	  RandomIntGenerator random2 = 
+	     new RandomIntGenerator(1, canvas.getHeight() - super.SIZE - 1);
+	  int x = random.nextValue();
+	  int y = random2.nextValue();
+
+	  furthest = new Location(x, y);
+	}
+
+
+
+	i++;
+      }
+      newRunner.moveTo(furthest);
+      super.setLocation(furthest);
+
+    }	  
+  }	
+
+  /*
+  * Name: kill
+  * Purpose: removes critter from canvas
+  * Parameters: none
+  * Return: void
+  */   
+  public void kill()
+  {
+    newRunner.removeFromCanvas();    
+  }  
+}

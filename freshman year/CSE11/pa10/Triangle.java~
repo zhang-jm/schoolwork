@@ -1,0 +1,242 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 11, 2014
+* File: Triangle.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA10
+*
+* A class that defines a triangle that can be manipulated.
+*/
+
+import java.awt.*;
+import objectdraw.*;
+
+/*
+* Name: Triangle
+* Purpose: Defines a triangle
+*/
+public class Triangle extends Shape
+{
+  //three points of the triangle
+  private Point p1;
+  private Point p2;
+  private Point p3;
+
+  private static final String TRIANGLE = new String("Triangle");
+
+  /*
+  * Name: Triangle
+  * Purpose: No-arg constructor, creates a default, empty triangle
+  * Parameters: none
+  */    
+  public Triangle() 
+  {
+    //calls other constructor
+    this(new Point(), new Point(), new Point());
+  }
+
+  /*
+  * Name: Triangle
+  * Purpose: Creates a triangle with three points
+  * Parameters: p1 - first point
+  *             p2 - second point
+  *             p3 - third point
+  */     
+  public Triangle( Point p1, Point p2, Point p3 ) 
+  {
+    //sets info
+    super(TRIANGLE);
+
+    this.setPoint1(p1);
+    this.setPoint2(p2);
+    this.setPoint3(p3);
+  }
+
+  /*
+  * Name: Triangle
+  * Purpose: Copy constructor; creates a new triangle based on the 
+  * three points of the original triangle
+  * Parameters: tri - the triangle to make a copy of
+  */    
+  public Triangle( Triangle tri ) 
+  {
+    this(new Point(tri.getPoint1()), new Point(tri.getPoint2()), 
+	 new Point(tri.getPoint3()));
+  }
+
+  /*
+  * Name: getPoint1
+  * Purpose: Returns first point of triangle
+  * Parameters: none
+  * Return: Point
+  */    
+  private Point getPoint1()
+  {
+    return this.p1;
+  }
+
+  /*
+  * Name: getPoint2
+  * Purpose: Returns second point of triangle
+  * Parameters: none
+  * Return: Point
+  */    
+  private Point getPoint2()
+  {
+    return this.p2;
+  }
+
+  /*
+  * Name: getPoint3
+  * Purpose: Returns third point of triangle
+  * Parameters: none
+  * Return: Point
+  */     
+  private Point getPoint3()
+  {
+    return this.p3;
+  }
+
+  /*
+  * Name: setPoint1
+  * Purpose: Sets the first point of triangle
+  * Parameters: p - the point to set the first point to
+  * Return: void
+  */    
+  public void setPoint1(Point p)
+  {
+    this.p1 = new Point(p);
+  }
+
+  /*
+  * Name: setPoint2
+  * Purpose: Sets the second point of triangle
+  * Parameters: p - the point to set the second point to
+  * Return: void
+  */      
+  public void setPoint2(Point p)
+  {
+    this.p2 = new Point(p);
+  }
+
+  /*
+  * Name: setPoint3
+  * Purpose: Sets the third point of triangle
+  * Parameters: p - the point to set the third point to
+  * Return: void
+  */      
+  public void setPoint3(Point p)
+  {
+    this.p3 = new Point(p);
+  }
+
+  /*
+  * Name: move
+  * Purpose: Moves the triangle
+  * Parameters: xDelta - the amount to move the triangle in the x direction
+  *             yDelta - the amount to move the triangle in the y direction
+  * Return: void
+  */     
+  public void move( int xDelta, int yDelta ) 
+  { 
+    //moves the 3 triangle points
+    this.getPoint1().move(xDelta, yDelta);
+    this.getPoint2().move(xDelta, yDelta);
+    this.getPoint3().move(xDelta, yDelta);
+  }
+
+  /*
+  * Name: toString
+  * Purpose: Returns the shape name and three points in a string
+  * Parameters: none
+  * Return: String
+  */   
+  @Override
+  public String toString() 
+  { 
+    //example return statement -
+    //"Triangle: Point: (1, 1), Point: (2, 2), Point: (3, 3)"
+    return super.getName() + ": " + this.getPoint1().toString() + ", " +
+	   this.getPoint2().toString() + ", " + this.getPoint3().toString();
+  }
+
+  /*
+  * Name: equals
+  * Purpose: Checks if a triangle and another object are equal 
+  * (same points)
+  * Parameters: o - an object to check a triangle to
+  * Return: boolean
+  */        
+  @Override
+  public boolean equals( Object o ) 
+  {
+    if(o == null)
+    {
+      return false; //false if o is null
+    }
+    else
+    {
+      if(o instanceof Triangle) //checks if o is a triangle
+      {
+	//checks if the three points are equal
+        if(((Triangle)o).getPoint1().equals(this.getPoint1()) &&
+           ((Triangle)o).getPoint2().equals(this.getPoint2()) &&
+	   ((Triangle)o).getPoint3().equals(this.getPoint3()))
+	{
+          return true;
+	}
+	else
+	{
+          return false; //false if points are not equal
+	}
+      }
+      else
+      {
+        return false; //false if o is not a triangle
+      }
+    }
+  }
+
+  /*
+  * Name: hashCode
+  * Purpose: Returns an int representing the triangle
+  * Parameters: none
+  * Return: int
+  */    
+  @Override
+  public int hashCode()
+  { 
+    return this.toString().hashCode(); //uses String's hashCode method
+  }
+
+  /*
+  * Name: draw
+  * Purpose: Draws the triangle on the canvas
+  * Parameters: canvas - canvas to draw the triangle on
+  *             c - color to draw the triangle
+  *             fill - if the triangle should be filled or not
+  * Return: void
+  */   
+  public void draw( DrawingCanvas canvas, Color c, boolean fill ) 
+  {
+    if(c == null)
+    {
+      c = Color.BLACK;
+    }
+
+    CSE11_Line line1 = 
+	      new CSE11_Line(this.getPoint1(), this.getPoint2());
+    CSE11_Line line2 = 
+	      new CSE11_Line(this.getPoint2(), this.getPoint3());
+    CSE11_Line line3 = 
+	      new CSE11_Line(this.getPoint3(), this.getPoint1());
+
+    line1.draw(canvas, c, fill);
+    line2.draw(canvas, c, fill);
+    line3.draw(canvas, c, fill);
+  
+  }
+ 
+}
+

@@ -1,0 +1,13 @@
+Short Response:
+1) The Linux command to rename a file is mv. The command to copy a file is 
+cp.
+2) Middle clicking in vim in insert mode acts as a paste function - 
+whatever's in the clipboard at the moment gets pasted into vim. If someone
+middle clicks while having text selected, the selected text gets replaced
+by the clipboard text.
+3) The name of the application that processes commands on the command 
+line is the terminal.
+4) 
+5) Entering :split in command mode in vim splits the screen in vim and lets 
+you open multiple files in the same window.
+6) 

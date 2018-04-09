@@ -1,0 +1,5 @@
+Short Response:
+1) vim +[linenumber] [filename]
+2) ":syntax off" to turn off coloring
+   ":syntax on" to turn on coloring
+3) :help 

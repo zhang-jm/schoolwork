@@ -1,0 +1,66 @@
+Name: Jamie Zhang
+ID: cs11fmd
+Date: November 11, 2014
+File: README
+Sources of Help: Google
+
+Program Description:
+AnimalSpeak:
+This program sets up an AppletViewer window which the user can manipulate.
+The user can run this program by first opening the terminal, entering the
+directory using the command "cd pa5", compiling the program using the command
+"javac -cp ./objectdraw.jar:. AnimalSpeak.java",
+and finally running the program using the command
+"appletviewer AnimalSpeak.html".
+
+When opened, the user is faced with three rows of three images each (nine
+images total), each of a different animal. Near the bottom of the AppletViewer
+window, the user is asked the question "Which animal says [insert animal sound
+here]?" The user then clicks on the image of the animal that makes the sound
+asked in the question. If the user clicks on the correct image, a green border
+appears around the image, and the text "Correct -- Click mouse to restart." 
+appears. When the user clicks in the window after choosing a correct answer, 
+the user is prompted with a new question. If the user clicks on the 
+incorrect image, a red border appears around the image, and the text "Wrong - 
+Try Again!" appears. The user can then try again by clicking on another image.
+The goal of the game is to choose the correct images.
+
+
+Memory: 
+This program sets up an AppletViewer window which the user can manipulate.
+The user can run this program by first opening the terminal, entering the
+directory using the command "cd pa5", compiling the program using the command
+"javac -cp ./objectdraw.jar:. Memory.java",
+and finally running the program using the command
+"appletviewer Memory.html".
+
+When opened, the user is faced with hidden images, each with a black border. 
+Clicking on an image reveals the image of an animal. The user can then click 
+on another image to reveal a second animal. If the two animal images match, a 
+green border appears around the two images, and the two images stay faceup.
+The sound the animal makes appears as a text at the bottom of the window.
+If the two animal images don't match, a red border appears around the
+two images; on the next click, the two images are rehidden, and if the mouse
+click was on an image, that new image is shown. Images that were already
+matched correctly cannot be rematched. The goal of the game is to match all
+the images correctly.
+
+
+Short Answer: 
+1) "$" in command mode to move to the end of a line
+   "0" in command mode to move to beginning of a line (including whitespace)
+   "^" in command mode to move to the first non-whitespace character
+2) "V" in command mode to highlight/select the line the cursor is currently on
+3) The keyword static in regards to variables means that the variable is
+   associated with the class rather than the object, and the variable is 
+   shared among the different instances of the class.
+4) The keyword static in regards to a method means that the method is
+   associated with the class rather than an object. This means that the method
+   can be called without an object being made. An example use would be when 
+   you don't need an object to be made, but you want to call the program to 
+   do something. An example of a static method is Math.sqrt().
+5) Overriding is when a subclass/child class has the same method as its 
+   superclass/parent class and it redefines that method. An example would be
+   when we extended WindowController and redefined the methods "begin()", 
+   "onMousePress()", etc. in our own program.
+6) cut -c 5-13 foo

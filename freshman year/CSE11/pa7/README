@@ -1,0 +1,52 @@
+Name: Jamie Zhang
+ID: cs11fmd
+Date: November 20, 2014
+File: README
+Sources of Help: Google
+
+Program Description:
+ReverseRecurse:
+This program runs in the terminal.
+The user can run this program by first opening the terminal, entering the
+directory using the command "cd pa7", compiling the program using the command
+"javac ReverseRecurse.java",
+and finally running the program using the command
+"java TestReverseRecurse".
+
+When opened, the user is asked to input the number of integers they wish to 
+enter. If the user enters a value that is too small, an error message pops up
+and the user can try again. If the user enters a valid input, a new set of 
+instructions pops up, instructing the user to enter integers up to the number
+of integers they originally wanted to enter. The integers the user inputs is
+then stored. The integers can then be printed in the order they were entered
+and they can also be reversed.
+
+
+Slots:
+This program sets up an AppletViewer window which the user can manipulate.
+The user can run this program by first opening the terminal, entering the
+directory using the command "cd pa7", compiling the program using the command
+"javac -cp ./objectdraw.jar:. Slots.java",
+and finally running the program using the command
+"appletviewer Slots.html".
+
+When opened, the user is faced with three slot wheels with random images, and
+a button that says "Click to Spin". If the button is pressed, the slot wheels
+will start spinning (the images will start changing). The goal is to have all 
+the slot wheels land on the same image. If all the wheels end on the same
+image, the user has won and an image celebrating the win will appear. Near the 
+bottom of the screen, the program records and shows the number of spins
+(which will increase whenever the button is pressed), the number of wins
+(which will increase whenever the wheels land on the same image), and the
+win percentage (the amount of wins compared to the number of spins).
+
+
+Short Answer: 
+1) :set shiftwidth=2 -> sets indent to two spaces
+   N>> -> indents N number of lines
+   N<< -> deindent N number of lines
+2) >% -> indent block
+   <% -> deindent block
+3) o
+4) 1>>output
+5) int[] array = {1, 3, 5, 7, 9};

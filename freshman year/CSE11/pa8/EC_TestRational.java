@@ -1,0 +1,455 @@
+/*
+ * Name: Jamie Zhang
+ * Login: cs11fmd
+ * Date: November 26, 2014
+ * File: EC_TestRational.java
+ * Sources of Help: Christopher Cabreros (student), PA8 instructions
+ * Description: A test file for the extra credit methods of Rational.java.
+ */
+
+
+/*
+ * Extra Credit Tester for class Rational
+ */
+public class EC_TestRational
+{
+
+  /*
+   * Test Driver
+   */
+  public static void main( String[] args )
+  {
+    System.out.println("\nRunning Extra Credit TestRational...");
+
+    // Extra Credit
+    testReciprocal();
+    testFloor();
+    testCeiling();
+
+    System.out.println("\n...Finished.");
+  }
+
+  /*
+   * EXTRA CREDIT - Tests for reciprocal()
+   */
+  private static void testReciprocal()
+  {
+    System.out.println("\n===== Testing reciprocal() method =====");
+
+    //Test 1
+    System.out.println("Test 1: ");
+    try
+    {
+      Rational r1 = new Rational(3, 81);
+      Rational r1res = r1.reciprocal();
+
+      if(r1res.toString().equals("27"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }
+
+    //Test 2
+    System.out.println("Test 2: ");
+    try
+    {
+      Rational r2 = new Rational(-2, 3);
+      Rational r2res = r2.reciprocal();
+
+      if(r2res.toString().equals("-3/2"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }
+
+    //Test 3
+    System.out.println("Test 3: ");
+    try
+    {
+      Rational r3 = new Rational(0, 1);
+      Rational r3res = r3.reciprocal();
+
+      System.out.println("FAIL");
+    }
+    catch(UnsupportedOperationException e)
+    {
+      System.out.println("PASS");
+    }
+    catch(Exception e)
+    {
+      System.out.println("FAIL");
+    }
+
+    //Test 4
+    System.out.println("Test 4: ");
+    try
+    {
+      Rational r4 = new Rational(4, 2);
+      Rational r4res = r4.reciprocal();
+
+      if(r4res.toString().equals("1/2"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }
+
+    //Test 5
+    System.out.println("Test 5: ");
+    try
+    {
+      Rational r5 = new Rational(9000, -2542);
+      Rational r5res = r5.reciprocal();
+
+      if(r5res.toString().equals("-1271/4500"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }
+  }
+
+
+  /*
+   * EXTRA CREDIT - Tests for floor()
+   */
+  private static void testFloor()
+  {
+    System.out.println("\n===== Testing    floor()   method =====");
+
+    //Test 6
+    System.out.println("Test 6: ");
+    try
+    {
+      Rational r6 = new Rational(1, 3);
+      Rational r6res = r6.floor();
+
+      if(r6res.toString().equals("0"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }
+
+    //Test 7
+    System.out.println("Test 7: ");
+    try
+    {
+      Rational r7 = new Rational(0, 4);
+      Rational r7res = r7.floor();
+
+      if(r7res.toString().equals("0"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }    
+  
+    //Test 8
+    System.out.println("Test 8: ");
+    try
+    {
+      Rational r8 = new Rational(4, 2);
+      Rational r8res = r8.floor();
+
+      if(r8res.toString().equals("2"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }    
+
+    //Test 9
+    System.out.println("Test 9: ");
+    try
+    {
+      Rational r9 = new Rational(-5, -3);
+      Rational r9res = r9.floor();
+
+      if(r9res.toString().equals("1"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }   
+
+    //Test 10
+    System.out.println("Test 10: ");
+    try
+    {
+      Rational r10 = new Rational(5241, 321);
+      Rational r10res = r10.floor();
+
+      if(r10res.toString().equals("16"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }     
+
+    //Test 11
+    System.out.println("Test 11: ");
+    try
+    {
+      Rational r11 = new Rational(-32014, 240);
+      Rational r11res = r11.floor();
+
+      if(r11res.toString().equals("-134"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }  
+
+    //Test 12
+    System.out.println("Test 12: ");
+    try
+    {
+      Rational r12 = new Rational(2, -3);
+      Rational r12res = r12.floor();
+
+      if(r12res.toString().equals("-1"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }
+  }
+
+
+  /*
+   * EXTRA CREDIT - Tests for ceiling()
+   */
+  private static void testCeiling()
+  {
+    System.out.println("\n===== Testing   ceiling()  method =====");
+
+    //Test 13
+    System.out.println("Test 13: ");
+    try
+    {
+      Rational r13 = new Rational(1, 3);
+      Rational r13res = r13.ceiling();
+
+      if(r13res.toString().equals("1"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }
+
+    //Test 14
+    System.out.println("Test 14: ");
+    try
+    {
+      Rational r14 = new Rational(0, 4);
+      Rational r14res = r14.ceiling();
+
+      if(r14res.toString().equals("0"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }    
+  
+    //Test 15
+    System.out.println("Test 15: ");
+    try
+    {
+      Rational r15 = new Rational(4, 2);
+      Rational r15res = r15.ceiling();
+
+      if(r15res.toString().equals("2"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }    
+
+    //Test 16
+    System.out.println("Test 16: ");
+    try
+    {
+      Rational r16 = new Rational(-5, -3);
+      Rational r16res = r16.ceiling();
+
+      if(r16res.toString().equals("2"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }   
+
+    //Test 17
+    System.out.println("Test 17: ");
+    try
+    {
+      Rational r17 = new Rational(5241, 321);
+      Rational r17res = r17.ceiling();
+
+      if(r17res.toString().equals("17"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }     
+
+    //Test 18
+    System.out.println("Test 18: ");
+    try
+    {
+      Rational r18 = new Rational(-32014, 240);
+      Rational r18res = r18.ceiling();
+
+      if(r18res.toString().equals("-133"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }  
+
+    //Test 19
+    System.out.println("Test 19: ");
+    try
+    {
+      Rational r19 = new Rational(2, -3);
+      Rational r19res = r19.ceiling();
+
+      if(r19res.toString().equals("0"))
+      {
+        System.out.println("PASS");
+      }
+      else
+      {
+        System.out.println("FAIL");
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("EXCEPTION");
+    }
+  }
+  
+}
+

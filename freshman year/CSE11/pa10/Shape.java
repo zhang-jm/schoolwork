@@ -1,0 +1,100 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 11, 2014
+* File: Shape.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA10
+*
+* A class that defines a shape that can be manipulated.
+*/
+
+import java.awt.*;
+import objectdraw.*;
+
+/*
+* Name: Shape
+* Purpose: Defines a shape
+*/
+public abstract class Shape
+{
+  private String name; //the name of the shape
+
+  /*
+  * Name: Shape
+  * Purpose: No-arg constructor, creates a default shape
+  * Parameters: none
+  */     
+  public Shape() 
+  {
+    this(new String("")); //sets name to empty string
+  }
+ 
+  /*
+  * Name: Shape
+  * Purpose: Creates a circle with a name
+  * Parameters: name - the name of the shape
+  */    
+  public Shape( String name ) 
+  {
+    this.setName(name); //sets name
+  }
+
+  /*
+  * Name: getName
+  * Purpose: Returns the name of the shape
+  * Parameters: none
+  * Return: String
+  */   
+  public String getName() 
+  {
+    return name;
+  }
+
+  /*
+  * Name: setName
+  * Purpose: Sets the name of the shape
+  * Parameters: name - the value that will be set to the name
+  * Return: void
+  */     
+  private void setName( String name ) 
+  {
+    this.name = new String(name);
+  }
+ 
+  /*
+  * Name: equals
+  * Purpose: Checks if a shape and another object are equal
+  * Parameters: o - an object to check a shape to
+  * Return: boolean
+  */
+  @Override
+  public boolean equals( Object o ) {
+  String s = "\n**********************************************************\n"
+  + "This should never print. If it does print, then\n"
+  + "you did not override equals() properly in class "
+  + this.getClass().getName() + "\n"
+  + "**********************************************************\n";
+  System.out.println( s );
+  return this == o;
+  }
+ 
+  /*
+  * Name: move
+  * Purpose: Moves the shape
+  * Parameters: xDelta - the amount to move the shape in the x direction
+  *             yDelta - the amount to move the shape in the y direction
+  * Return: void
+  */    
+  public abstract void move( int xDelta, int yDelta );
+
+  /*
+  * Name: draw
+  * Purpose: Draws the shape on the canvas
+  * Parameters: canvas - canvas to draw the shape on
+  *             c - color to draw the shape
+  *             fill - if the shape should be filled or not
+  * Return: void
+  */    
+  public abstract void draw( DrawingCanvas canvas, Color c, boolean fill );
+}

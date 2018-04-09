@@ -1,0 +1,231 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 11, 2014
+* File: Circle.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA10
+*
+* A class that defines a circle that can be manipulated.
+*/
+
+import objectdraw.*;
+import java.awt.*;
+
+/*
+* Name: Circle
+* Purpose: Defines a circle
+*/
+public class Circle extends Shape
+{  
+  private Point center; //center point of circle
+  
+  private int radius; //radius of circle
+
+  private static final String CIRCLE = new String("Circle");
+
+  /*
+  * Name: Circle
+  * Purpose: No-arg constructor, creates a default, empty circle
+  * Parameters: none
+  */   
+  public Circle() 
+  {
+    //calls other constructor to set circle info
+    this(new Point(), 0);
+  }
+
+  /*
+  * Name: Circle
+  * Purpose: Creates a circle with a center point and radius
+  * Parameters: center - the center point of the circle
+  *             radius - the radius of the circle
+  */   
+  public Circle( Point center, int radius ) 
+  {
+    //sets info of the circle
+    super(CIRCLE);
+    this.setCenter(center);
+    this.setRadius(radius);
+  }
+  
+  /*
+  * Name: Circle
+  * Purpose: Copy constructor; creates a new circle based on the 
+  * center and radius of an original circle
+  * Parameters: c - the circle to make a copy of
+  */   
+  public Circle( Circle c ) 
+  {
+    this(new Point(c.getCenter()), c.getRadius());
+  }
+  
+  /*
+  * Name: getCenter
+  * Purpose: Returns the center point of the circle
+  * Parameters: none
+  * Return: Point
+  */   
+  public Point getCenter()
+  {
+    return this.center;
+  }
+
+  /*
+  * Name: getRadius
+  * Purpose: Returns the radius of the circle
+  * Parameters: none
+  * Return: int
+  */ 
+  public int getRadius()
+  {
+    return this.radius;
+  }
+
+  /*
+  * Name: getDiameter
+  * Purpose: Returns the diameter of the circle
+  * Parameters: none
+  * Return: int
+  */   
+  public int getDiameter()
+  {
+    return this.radius + this.radius; //returns twice the radius
+  }
+
+  /*
+  * Name: setRadius
+  * Purpose: Sets the radius of the circle
+  * Parameters: radius - the value that will be set to the radius
+  * Return: void
+  */   
+  private void setRadius(int radius)
+  {
+    this.radius = radius;
+  }
+
+  /*
+  * Name: setCenter
+  * Purpose: Sets the center of the circle
+  * Parameters: p - the point that will be set to the center point
+  * Return: void
+  */   
+  private void setCenter(Point p)
+  {
+    this.center = new Point(p);
+  }
+
+  /*
+  * Name: move
+  * Purpose: Moves the circle
+  * Parameters: xDelta - the amount to move the circle in the x direction
+  *             yDelta - the amount to move the circle in the y direction
+  * Return: void
+  */   
+  public void move( int xDelta, int yDelta ) 
+  {
+    this.center.move(xDelta, yDelta);
+  }
+
+  /*
+  * Name: toString
+  * Purpose: Returns the name of the circle and the location of its 
+  * center point in a string
+  * Parameters: none
+  * Return: String
+  */     
+  @Override
+  public String toString() 
+  {
+    //example return statement - 
+    //"Circle: Center: Point: (0, 0); Radius: 0"
+    return super.getName() + ": Center: " + this.center.toString() +
+		"; Radius: " + this.getRadius();
+  }
+  
+  /*
+  * Name: equals
+  * Purpose: Checks if a circle and another object are equal 
+  * (same center point and radius)
+  * Parameters: o - an object to check a circle to
+  * Return: boolean
+  */   
+  @Override
+  public boolean equals( Object o ) 
+  { 
+    if(o == null)
+    {
+      return false; //false if o is null
+    }
+    else
+    {
+      if(o instanceof Circle) //if o is Circle
+      {
+	//checks if center point and radius are equal
+        if(((Circle)o).getCenter().equals(this.getCenter()) &&
+	   ((Circle)o).getRadius() == this.getRadius())
+	{
+          return true;
+	}
+	else
+	{
+          return false; //false if radius or center aren't same
+        }
+      }
+      else
+      {
+        return false; //false if o is not Circle
+      }
+    }
+  }
+ 
+  /*
+  * Name: hashCode
+  * Purpose: Returns an int representing the circle
+  * Parameters: none
+  * Return: int
+  */  
+  @Override
+  public int hashCode() 
+  {
+    return this.toString().hashCode(); //uses String's hashCode method
+  }
+  
+  /*
+  * Name: draw
+  * Purpose: Draws the circle on the canvas
+  * Parameters: canvas - canvas to draw the circle on
+  *             c - color to draw the circle
+  *             fill - if the circle should be filled or not
+  * Return: void
+  */   
+  public void draw( DrawingCanvas canvas, Color c, boolean fill ) 
+  {
+    if(c == null)
+    {
+      c = Color.BLACK; //sets the color to black if c is null
+    }
+	  
+    if(fill) //if the circle should be filled
+    {
+      //draws a filled circle
+      FilledOval circle = 
+	new FilledOval(center.getX() - this.getRadius(), center.getY() - 
+		       this.getRadius(), this.getDiameter(), 
+	               this.getDiameter(), canvas);
+      circle.setColor(c);
+
+    }
+    else //if the circle should not be filled
+    {
+      //draws a circle
+      FramedOval circle = 
+	new FramedOval(center.getX() - this.getRadius(), center.getY() - 
+		       this.getRadius(), this.getDiameter(), 
+	     	       this.getDiameter(), canvas);
+      circle.setColor(c);
+    }
+  }
+  
+}
+

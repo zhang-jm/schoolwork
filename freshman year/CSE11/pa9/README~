@@ -1,0 +1,15 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 4, 2014
+* File: README
+* Sources of Help: Google
+*/
+
+Short Answer:
+1) make a new class for each shape
+   have a method to set color in each shape class
+2) 
+3)
+4) gvim -o *.java 
+5) mkdir -p fooBar/barDir

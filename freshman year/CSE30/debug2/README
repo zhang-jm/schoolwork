@@ -1,0 +1,102 @@
+Name: Jamie Zhang
+ID: cs30xgo
+Date: 29 May 2015
+
+Errors:
+Compilation errors --
+1) line 60 in main.c
+   (60) error: undefined symbol: numOfChars
+   (60) error: variable may be used before set: numOfChars
+
+   Original code:
+   (void) printf("\"%s\" has a total of %d character(s)\n", str, 
+                 numOfChars);
+
+   Problem: 
+   There is no variable numOfChars that holds the number of chars in
+   the string in main.c. It is defined in count.c, but we want to use
+   this variable in main.c.
+
+   Fix:
+   Add the line extern int numOfChars in main.c in order for us to 
+   access the variable in count.c, on line 40.
+   extern int numOfChars;
+
+
+2) line 28 in count.c
+   (28) error: implicit function declaration: strlen
+
+   Original code:
+   #include <stdio.h>
+   #define ASCII 256
+   for (i = 0; i < strlen(str); i++)
+
+   Problem:
+   We did not include <string.h> which contains strlen.
+
+   Fix:
+   Add #include on line 7.
+   #include <string.h>
+
+
+3) line 36 in count.c
+   (36) error: function returns pointer to automatic
+
+   Original code:
+   int* count( char* str ) {
+     int asctb[ASCII] = {0};
+     ...
+     return asctb;
+
+   Problem:
+   We are returning a pointer that will be deallocated after we end
+   the function, so the memory can't be accessed outside.
+
+   Fix:
+   Make the pointer static on line 36 in count.c.
+   static int asctb[ASCII] = {0};
+
+Functionality errors --
+1) Error:
+   Output always says that there are 4 different ascii characters
+   and only four lines are printed to the screen when there should be
+   more.
+
+   Original code (line 52):
+   for (j = 0; j < sizeof(counts); j++) {
+
+   Problem:
+   Our for-loop loops only 4 times every time because we're doing while
+   j < sizeof(count), but since count is an int *, the size of count
+   is 4. Instead, we want to loop 256 times (once per character in the
+   ASCII set).
+
+   Fix:
+   On line 52, change sizeof(counts) to ASCII.
+   for (j = 0; j < ASCII; j++)
+
+2) Error:
+   We keep printing "appeared 0 times" to the screen and incrementing
+   numOfUniqueChars even if counts[j] is 0.
+
+   Original code (lines 53 to 57):
+   if (counts[j]) 
+      (void) printf("Character %c ", j);
+      (void) printf("appeared %d times\n", counts[j]);
+
+      numOfUniqueChars++;
+
+   Problem:
+   We don't have brackets after the if, so the if statement
+   only applies to the first line. Therefore, the second line always
+   prints and numOfUniqueChars always increments even if we don't
+   want it to.
+
+   Fix:
+   Add brackets around the chunk of code from line 54 to 57.
+   if (counts[j]) {
+      (void) printf("Character %c ", j);
+      (void) printf("appeared %d times\n", counts[j]);
+
+      numOfUniqueChars++;
+    }

@@ -1,0 +1,206 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 11, 2014
+* File: Polygon.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA10
+*
+* A class that defines a polygon that can be manipulated.
+*/
+
+import java.awt.*;
+import objectdraw.*;
+
+/*
+* Name: Polygon
+* Purpose: Defines a polygon
+*/
+public class Polygon extends Shape
+{
+  private Point[] array;
+
+  /*
+  * Name: Polygon
+  * Purpose: No-arg constructor, creates an empty polygon
+  * Parameters: none
+  */   
+  public Polygon()
+  {
+    this(new Point[0]);
+  }
+
+  /*
+  * Name: Polygon
+  * Purpose: Creates a polygon with a number of points
+  * Parameters: array - an array of points that the polygon has
+  */ 
+  public Polygon(Point[] array)
+  {
+    super(new String("Polygon"));
+    this.setArray(array);
+  }
+
+  /*
+  * Name: Polygon
+  * Purpose: Copy constructor; creates a new polygon based on the 
+  * points of an original polygon
+  * Parameters: poly - the polygon to make a copy of
+  */ 
+  public Polygon(Polygon poly)
+  {
+    Point[] copyArray = new Point[poly.getArray().length];
+
+    for(int i = 0; i < poly.length; i++)
+    {
+      copyArray[i] = new Point(poly[i]);
+    }
+
+    this.setArray(copyArray);
+  }
+
+  /*
+  * Name: getArray
+  * Purpose: Returns the polygon's array of points
+  * Parameters: none
+  * Return: Point[]
+  */ 
+  public Point[] getArray()
+  {
+    return this.array;
+  }
+
+  /*
+  * Name: setArray
+  * Purpose: Sets the polygon's array of points to an array
+  * Parameters: array - an array of points to set the polygon's array to
+  * Return: void
+  */ 
+  private void setArray(Point[] array)
+  {
+    Point[] copyArray = new Point[array.length];
+
+    for(int i = 0; i < array.length; i++)
+    {
+      copyArray[i] = new Point(poly[i]);
+    }
+	  
+    this.array = copyArray;
+  }
+
+  /*
+  * Name: move
+  * Purpose: Moves the polygon
+  * Parameters: xDelta - the amount to move the polygon in the x direction
+  *             yDelta - the amount to move the polygon in the y direction
+  * Return: void
+  */ 
+  public void move(xDelta, yDelta)
+  {
+    Point[] array = this.getArray();
+    
+    for(Point p : array)
+    {
+      p.move(xDelta, yDelta);
+    }
+  }
+
+  /*
+  * Name: toString
+  * Purpose: Returns the points of the polygon in a string
+  * Parameters: none
+  * Return: String
+  */   
+  @Override
+  public String toString()
+  {
+    String s = "";
+    int pointNumber = 1;
+
+    for(Point p : array)
+    {
+      s = s + p.toString() + ", ";
+    }
+
+    return "Polygon: " + s;
+  }
+
+  /*
+  * Name: equals
+  * Purpose: Checks if a polygon and another object are equal (same points)
+  * Parameters: o - an object to check a polygon to
+  * Return: boolean
+  */ 
+  @Override
+  public boolean equals(Object o) //check this later
+  {
+    if(o == null)
+    {
+      return false;
+    }
+
+    else
+    {
+      if(o instanceof Polygon)
+      {
+	if(((Polygon)o).getArray().length == this.getArray().length)
+	{
+          int i = 0;
+	  Point[] thisArray = this.getArray();
+	  Point[] oArray = o.getArray();
+
+	  while (i < this.getArray().length)
+	  {
+	    if(!(thisArray[i].equals(oArray[i].getX())))
+	    {
+	      return false;
+	    }
+	  }
+	  return true;
+	}
+
+	else
+	{
+          return false;
+	}
+      }
+
+      else
+      {
+        return false;
+      }
+    }
+  }
+
+  /*
+  * Name: hashCode
+  * Purpose: Returns an int representing the polygon
+  * Parameters: none
+  * Return: int
+  */   
+  @Override
+  public int hashCode()
+  {
+    return this.toString().hashCode();
+  }
+
+  /*
+  * Name: draw
+  * Purpose: Draws the polygon on the canvas
+  * Parameters: canvas - canvas to draw the polygon on
+  *             c - color to draw the polygon
+  *             fill - if the polygon should be filled or not
+  * Return: void
+  */ 
+  public void draw(DrawingCanvas canvas, Color c, boolean fill)
+  {
+    Point[] array = this.getArray();
+
+    for(int i = 0; i < array.length - 1; i++)
+    {
+      CSE11_Line line = new CSE11_Line(array[i], array[i + 1]);
+      line.draw(canvas, c, fill);
+    }
+  }
+
+}

@@ -1,0 +1,259 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: November 20, 2014
+* File: Slots.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs, 
+*                  Java API docs
+* 
+* This program is the controller for a slots machine game that can be 
+* run in the appletviewer. The program sets up the GUI for the game.
+*/
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import objectdraw.*;
+
+/*
+* Name: Slots
+* Purpose: Creates a slots game that can be run in the AppletViewer window.
+*/
+public class Slots extends WindowController
+                   implements ActionListener
+{
+  private static final int NUM_OF_IMAGES = 8; //number of images in array
+  private static final int NUM_SLOT_WHEELS = 3; //number of SlotWheel objects
+  private static final int NUM_SPACES_BETWEEN_WHEELS = 2;
+  private static final int IMAGE_WIDTH = 110; //width of the slot images
+  private static final int IMAGE_HEIGHT = 145; //height of the slot images
+  private static final int WINNER_WIDTH = 500; //width of the winner image
+  private static final int WINNER_HEIGHT = 200; //height of the winner image
+  //pixels from top of canvas to top of wheel  
+  private static final int WHEELS_Y_OFFSET = 5; 
+  private static final int SPACE_BETWEEN_WHEELS = 5; //# pixels between wheels
+  
+  //number of times the images change for each wheel
+  private static final int WHEEL_1_TICKS = 22; 
+  private static final int WHEEL_2_TICKS = WHEEL_1_TICKS + 6; 
+  private static final int WHEEL_3_TICKS = WHEEL_2_TICKS + 6; 
+
+  //time between each image change
+  private static final int WHEEL_1_DELAY = 40; 
+  private static final int WHEEL_2_DELAY = WHEEL_1_DELAY + 20; 
+  private static final int WHEEL_3_DELAY = WHEEL_2_DELAY + 20;
+
+  //following variables are used to set up the GUI
+  private JPanel topPanel;
+  private JPanel disclaimerPanel;
+  private JPanel titlePanel;
+  private JPanel buttonPanel;
+  private JPanel bottomPanel;
+  private JLabel title;
+  private JLabel disclaimer;
+  private JButton clickToSpin;
+
+  private VisibleImage winningImage;
+
+  private SlotWheel firstWheel;
+  private SlotWheel secondWheel;
+  private SlotWheel thirdWheel;
+
+  private FramedRect firstBorder;
+  private FramedRect secondBorder;
+  private FramedRect thirdBorder;
+
+  private Image[] imageArray = new Image[NUM_OF_IMAGES];
+
+  //holds the index of the image the wheels stop on
+  private int firstIndex = -1;
+  private int secondIndex = -1;
+  private int thirdIndex = -1;
+
+  //GUI items for extra credit
+  private JPanel textPanel;
+  private JLabel spinsText;
+  private JLabel winsText;
+  private JLabel winPercentage;
+  private double numSpins;
+  private double numWins;
+
+
+  /*
+  * Name: begin
+  * Purpose: Sets up the AppletViewer window with everything necessary to
+  * start the game.
+  * Parameters: none
+  * Return: void
+  */  
+  public void begin()
+  {
+    //creates all the panels for the GUI
+    titlePanel = new JPanel();  
+    buttonPanel = new JPanel();
+    bottomPanel = new JPanel();
+    textPanel = new JPanel();
+    topPanel = new JPanel();
+    disclaimerPanel = new JPanel();
+
+    //creates all the labels, buttons, titles, etc
+    title = new JLabel("Ye Olde Swag Machine");
+    title.setFont(new Font("Calibri", Font.PLAIN, 30));
+    title.setForeground(Color.RED);
+    disclaimer = new JLabel("Disclaimer: While testing, I averaged 1 win out " 
+		    + "of every 200 spins.");
+    clickToSpin = new JButton("Click to Spin");
+
+    spinsText = new JLabel("Number of spins: " + (int)numSpins);
+    winsText = new JLabel("Number of wins: " + (int)numWins);
+    winPercentage = new JLabel("Win percentage: 0.0%");
+
+    //adds all the GUI components to its respective container
+    this.add(topPanel, BorderLayout.NORTH);
+    this.add(bottomPanel, BorderLayout.SOUTH);
+    bottomPanel.setLayout(new BorderLayout());
+    topPanel.setLayout(new BorderLayout());
+
+    topPanel.add(titlePanel, BorderLayout.NORTH);
+    topPanel.add(disclaimerPanel, BorderLayout.SOUTH);
+    titlePanel.add(title);
+    disclaimerPanel.add(disclaimer);
+    bottomPanel.add(textPanel, BorderLayout.NORTH);
+    bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
+    textPanel.add(spinsText);
+    textPanel.add(winsText);
+    textPanel.add(winPercentage);    
+    buttonPanel.add(clickToSpin);
+
+    //adds ActionListener so the program responds to the button press
+    clickToSpin.addActionListener(this);
+
+    //creates the array with the different images
+    int index = 0;
+    imageArray[index++] = getImage("sungod.jpg");
+    imageArray[index++] = getImage("sungod-bear.jpg");
+    imageArray[index++] = getImage("bear.jpg");
+    imageArray[index++] = getImage("bear-triton.jpg");
+    imageArray[index++] = getImage("triton.jpg");
+    imageArray[index++] = getImage("triton-library.jpg");
+    imageArray[index++] = getImage("library.jpg");
+    imageArray[index++] = getImage("library-sungod.jpg");
+
+    this.validate();
+
+    //creates the x locations for each of the three wheels
+    int firstXValue = (int)(canvas.getWidth() - (IMAGE_WIDTH * NUM_SLOT_WHEELS 
+		   + SPACE_BETWEEN_WHEELS * NUM_SPACES_BETWEEN_WHEELS)) / 
+	           NUM_SPACES_BETWEEN_WHEELS;
+    int secondXValue = (int)(firstXValue + IMAGE_WIDTH + SPACE_BETWEEN_WHEELS);
+    int thirdXValue = (int)(secondXValue + IMAGE_WIDTH + SPACE_BETWEEN_WHEELS); 
+
+    //creates the three SlotWheel objects
+    firstWheel = new SlotWheel(imageArray, WHEEL_1_TICKS, 
+		           WHEEL_1_DELAY, firstXValue, WHEELS_Y_OFFSET, 1,
+			   this,
+			   canvas);
+
+    secondWheel = new SlotWheel(imageArray, WHEEL_2_TICKS, 
+		           WHEEL_2_DELAY, secondXValue, WHEELS_Y_OFFSET, 
+			   NUM_SPACES_BETWEEN_WHEELS, this,
+			   canvas);
+
+    thirdWheel = new SlotWheel(imageArray, WHEEL_3_TICKS, 
+		           WHEEL_3_DELAY, thirdXValue, WHEELS_Y_OFFSET, 
+			   NUM_SLOT_WHEELS, this,
+			   canvas);
+
+    //creates the black borders around each SlotWheel
+    firstBorder = new FramedRect(firstXValue, WHEELS_Y_OFFSET, IMAGE_WIDTH, 
+		  IMAGE_HEIGHT, canvas);
+    secondBorder = new FramedRect(secondXValue, WHEELS_Y_OFFSET, IMAGE_WIDTH, 
+		  IMAGE_HEIGHT, canvas);
+    thirdBorder = new FramedRect(thirdXValue, WHEELS_Y_OFFSET, IMAGE_WIDTH, 
+		  IMAGE_HEIGHT, canvas);
+
+    //makes sure that the SlotWheels will respond to the button presses
+    clickToSpin.addActionListener(firstWheel);
+    clickToSpin.addActionListener(secondWheel);
+    clickToSpin.addActionListener(thirdWheel);	
+
+    winningImage = new VisibleImage(getImage("winner.jpg"), 0, 
+		   IMAGE_HEIGHT + WHEELS_Y_OFFSET * NUM_SPACES_BETWEEN_WHEELS, 
+		   WINNER_WIDTH, WINNER_HEIGHT, canvas);
+    winningImage.hide();
+  }
+
+  /*
+  * Name: actionPerformed
+  * Purpose: Runs this code when the JButton is pressed
+  * Parameters: evt - the ActionEvent
+  * Return: void
+  */
+  public void actionPerformed(ActionEvent evt)
+  {
+    //increments the number of spins
+    numSpins++;
+    //shows the new number of spins
+    spinsText.setText("Number of spins: " + (int)numSpins);
+    winningImage.hide(); //hides the winning image if it was shown previously
+  }
+
+  /*
+  * Name: showWinner
+  * Purpose: Shows the winner image if the three wheels have the same image
+  * Parameters: wheelNumber - first, second, or third wheel
+  *             index - the image the wheel landed on
+  * Return: void
+  */
+  public void showWinner(int wheelNumber, int index)
+  {
+    //if it's the first wheel
+    if(wheelNumber == 1)
+    {
+      firstIndex = index; //records the index
+    }
+    //if it's the second wheel
+    else if(wheelNumber == NUM_SPACES_BETWEEN_WHEELS)
+    {
+      secondIndex = index; //records the index
+    }
+    //if it's the third wheel
+    else if(wheelNumber == NUM_SLOT_WHEELS)
+    {
+      thirdIndex = index; //records the index
+    }
+
+    //if the wheels have finished spinning and the images are the same
+    if(thirdIndex != -1 && (firstIndex == secondIndex && 
+			    firstIndex == thirdIndex))
+    {
+      numWins++; //increments the number of wins
+      //shows the new number of wins
+      winsText.setText("Number of wins: " + (int)numWins);
+      //updates the win percentage
+      winPercentage.setText("Win percentage: " + 
+		      (double)((numWins / numSpins) * 100) + "%");
+
+      winningImage.show(); //shows the winner image
+
+      //resets the indexes
+      firstIndex = -1;
+      secondIndex = -1;
+      thirdIndex = -1;
+    }
+    //if the wheels have finished spinning but are not the same
+    else if(thirdIndex != -1 && (firstIndex != secondIndex || 
+			         firstIndex != thirdIndex))
+    {
+      //resets the indexes
+      firstIndex = -1;
+      secondIndex = -1;
+      thirdIndex = -1;
+
+      //updates the win percentages
+      winPercentage.setText("Win percentage: " + 
+		            (double)((numWins / numSpins) * 100) + "%");
+    }	  
+  }
+} //end class Slots

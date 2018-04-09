@@ -1,0 +1,175 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 11, 2014
+* File: Point.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA10
+*
+* A class that defines a point that can be manipulated.
+*/
+
+/*
+* Name: Point
+* Purpose: Defines a point
+*/
+public class Point
+{
+  private int x;
+  private int y;
+
+  private String name = new String("Point");
+
+  /*
+  * Name: Point
+  * Purpose: No-arg constructor, creates a default point
+  * Parameters: none
+  */  
+  public Point()
+  { 
+    this(0, 0); //calls another constructor to set info
+  }
+ 
+  /*
+  * Name: Point
+  * Purpose: Creates a point with a x and y value
+  * Parameters: x - x value of the point
+  *             y - y value of the point
+  */     
+  public Point( int x, int y ) 
+  {
+    //sets info of point	  
+    this.setX(x);
+    this.setY(y);
+  }
+
+  /*
+  * Name: Point
+  * Purpose: Copy constructor; creates a new point based on the 
+  * x and y values of original point
+  * Parameters: point - the point to make a copy of
+  */   
+  public Point( Point point ) 
+  {
+    this.setX(point.getX());
+    this.setY(point.getY());
+  }
+
+  /*
+  * Name: getX
+  * Purpose: Returns the x value of the point
+  * Parameters: none
+  * Return: int
+  */   
+  public int getX() 
+  {
+    return x;
+  }
+
+  /*
+  * Name: getY
+  * Purpose: Returns the y value of the point
+  * Parameters: none
+  * Return: int
+  */    
+  public int getY() 
+  {
+    return y;
+  }
+
+  /*
+  * Name: setX
+  * Purpose: Sets the x value of the point
+  * Parameters: x - the value to set the x value of the point to
+  * Return: void
+  */    
+  private void setX( int x ) 
+  { 
+    this.x = x;
+  }
+
+  /*
+  * Name: setY
+  * Purpose: Sets the y value of the point
+  * Parameters: y - the value to set the y value of the point to
+  * Return: void
+  */   
+  private void setY( int y ) 
+  {
+    this.y = y;
+  } 
+
+  /*
+  * Name: move
+  * Purpose: Moves the point
+  * Parameters: xDelta - the amount to move the point in the x direction
+  *             yDelta - the amount to move the point in the y direction
+  * Return: void
+  */   
+  public void move( int xDelta, int yDelta ) 
+  {
+    this.setX(this.getX() + xDelta);
+    this.setY(this.getY() + yDelta);
+  } 
+
+  /*
+  * Name: toString
+  * Purpose: Returns the x and y values of the point in a string
+  * Parameters: none
+  * Return: String
+  */   
+  @Override
+  public String toString() 
+  {
+    //example return statement - "Point: (0, 0)"  
+    return name + ": (" + this.getX() + ", " + this.getY() + ")";
+  }
+
+  /*
+  * Name: equals
+  * Purpose: Checks if a point and another object are equal 
+  * (same x and y values)
+  * Parameters: o - an object to check a point to
+  * Return: boolean
+  */   
+  @Override
+  public boolean equals( Object o ) 
+  {
+    if(o == null)
+    {
+      return false; //return false if o is null
+    }
+    else
+    {
+      if(o instanceof Point) //checks if o is a Point
+      {
+	//checks if the x and y values of the two points are the same
+        if(((Point)o).getX() == this.getX() && 
+	   ((Point)o).getY() == this.getY())
+	{
+          return true;
+	}
+        else
+	{
+          return false; //false if x and y values aren't equal
+	}
+      }
+      else
+      {
+        return false; //false if o is not a Point
+      }
+    }
+  }
+
+  /*
+  * Name: hashCode
+  * Purpose: Returns an int representing the point
+  * Parameters: none
+  * Return: int
+  */  
+  @Override
+  public int hashCode() 
+  {
+    return this.toString().hashCode(); //uses String's hashCode method
+  }
+}

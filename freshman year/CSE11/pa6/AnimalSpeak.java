@@ -1,0 +1,327 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: November 11, 2014
+* File: AnimalSpeak.java
+* Sources of Help: Christopher Cabreros (student), PA6 instructions, 
+* discussion slides, objectdraw docs, Java API docs
+* 
+* This program is a game that can be run in the AppletViewer window. 
+* When run, the program asks the question "Which animal says [insert animal
+* sound here]?" The goal of the game is to correctly choose the image of the
+* animal that makes the particular sound.
+*/
+
+import objectdraw.*;
+import java.awt.*;
+import java.util.*;
+import java.awt.event.*;
+
+/*
+* Name: AnimalSpeak
+* Purpose: Creates a game that can be run in the AppletViewer window.
+*/
+public class AnimalSpeak extends WindowController
+                         implements MouseListener
+{
+  AnimalCard animal;
+  Kitty kitty;
+  Duck duck;
+  Puppy puppy;
+  Lion lion;
+  Cow cow;
+  Lamb lamb;
+  Chicken chicken;
+  Turkey turkey;
+  Mouse mouse;
+
+  //used to set up the canvas and place objects in their proper locations
+  private static final int NUMBER_OF_IMAGES = 9;
+  private static final int IMAGES_HEIGHT = 303;
+  private static final int PIXELS_FROM_BOTTOM = 20;
+  private static final int PIXELS_FROM_BOTTOM_2 = 40;
+  private static final int HALF = 2;
+
+  //used within the switch statement used to pick an animal
+  private static final int FIRST_CASE = 0;
+  private static final int SECOND_CASE = 1;
+  private static final int THIRD_CASE = 2;
+  private static final int FOURTH_CASE = 3;
+  private static final int FIFTH_CASE = 4;
+  private static final int SIXTH_CASE = 5;
+  private static final int SEVENTH_CASE = 6;
+  private static final int EIGHTH_CASE = 7;
+  private static final int NINTH_CASE = 8;
+
+  private int n; 
+
+  //locations where the images will be placed
+  Location first = new Location(0, 0);
+  Location second = new Location(101, 0);
+  Location third = new Location(202, 0);
+  Location fourth = new Location(0, 101);
+  Location fifth = new Location(101, 101);
+  Location sixth = new Location(202, 101);
+  Location seventh = new Location(0, 202);
+  Location eighth = new Location(101, 202);
+  Location ninth = new Location(202, 202);
+
+  Text question;
+  Text correct = new Text("CORRECT! -- Click mouse to restart.", 1, 1, canvas);
+  Text incorrect = new Text("WRONG - Try Again!", 1, 1, canvas);
+
+  boolean isCorrect = false; //checks if the correct image was pressed
+  
+  Random random;
+
+  /*
+  * Name: begin
+  * Purpose: Sets up the AppletViewer window with everything necessary to
+  * start the game.
+  * Parameters: none
+  * Return: void
+  */
+  public void begin()
+  {
+    //initializes the animal objects
+    kitty = new Kitty(getImage("kitty.jpg"), first, canvas); 
+    duck = new Duck(getImage("duck.jpg"), second, canvas);
+    puppy = new Puppy(getImage("puppy.jpg"), third, canvas);
+    lion = new Lion(getImage("lion.jpg"), fourth, canvas);
+    cow = new Cow(getImage("cow.jpg"), fifth, canvas);
+    lamb = new Lamb(getImage("lamb.jpg"), sixth, canvas);
+    chicken = new Chicken(getImage("chicken.jpg"), seventh, canvas);
+    turkey = new Turkey(getImage("turkey.jpg"), eighth, canvas);
+    mouse = new Mouse(getImage("mouse.jpg"), ninth, canvas);  
+
+    //allows MouseEvents to be registered
+    canvas.addMouseListener(this);
+
+    //runs the method to pick an animal
+    pickAnAnimal();
+
+    //creates the question text
+    question = new Text("Which animal says " + animal.speak() + "?", 1,
+		         1, canvas);
+
+    //hides the result texts
+    correct.hide();
+    incorrect.hide();
+
+    //centers the question text
+    question.moveTo((canvas.getWidth() - question.getWidth()) / HALF,
+		     canvas.getHeight() - PIXELS_FROM_BOTTOM);
+  }
+
+  /*
+  * Name: pickAnAnimal
+  * Purpose: Picks an animal to use in the game/ask the question about.
+  * Parameters: none
+  * Return: void
+  */
+  public void pickAnAnimal()
+  {
+    //picks a random integer
+    random = new Random();
+    n = random.nextInt(NUMBER_OF_IMAGES);
+
+    //sets each different integer to a different animal object
+    switch(n)
+    {
+      case FIRST_CASE: animal = kitty; break;
+      case SECOND_CASE: animal = duck; break;
+      case THIRD_CASE: animal = puppy; break;
+      case FOURTH_CASE: animal = lion; break;
+      case FIFTH_CASE: animal = cow; break;
+      case SIXTH_CASE: animal = lamb; break;
+      case SEVENTH_CASE: animal = chicken; break;
+      case EIGHTH_CASE: animal = turkey; break;
+      case NINTH_CASE: animal = mouse; break;
+    }
+  }
+
+  /*
+  * Name: mousePressed
+  * Purpose: Needed for the program to compile.
+  * Parameters: evt - the mouse event
+  * Return: void
+  */
+  public void mousePressed(MouseEvent evt)
+  {
+  }
+
+  /*
+  * Name: mouseReleased
+  * Purpose: Needed for the program to compile.
+  * Parameters: evt - the mouse event
+  * Return: void
+  */
+  public void mouseReleased(MouseEvent evt)
+  {
+  }
+
+  /*
+  * Name: mouseClicked
+  * Purpose: When the mouse is clicked, the program reacts depending on what
+  * the user has already done (if they've answered the question correctly, 
+  * incorrectly, etc.).
+  * Parameters: evt - the mouse event
+  * Return: void
+  */
+  public void mouseClicked(MouseEvent evt)
+  {
+    Location point = new Location(evt.getX(), evt.getY());
+
+    //if the user has not answered correctly
+    if(!isCorrect)
+    {
+      //if the correct image is pressed
+      if(animal.contains(point))
+      {
+	//hides any previous highlighting
+	incorrect.hide();
+        kitty.hideHighlight();
+        duck.hideHighlight();
+        puppy.hideHighlight();
+        lion.hideHighlight();
+        cow.hideHighlight();
+        lamb.hideHighlight();
+	chicken.hideHighlight();
+	turkey.hideHighlight();
+	mouse.hideHighlight();
+
+	//shows the green highlighting to indicate a correct answer
+        animal.showHighlight(Color.GREEN);
+        isCorrect = true;
+	
+	//shows text indicating a correct answer
+	correct.show();
+        correct.moveTo((canvas.getWidth() - correct.getWidth()) / HALF,
+	  	     canvas.getHeight() - PIXELS_FROM_BOTTOM_2);
+        correct.setColor(Color.GREEN);
+      }
+
+      //if the answer is not the correct image
+      else if(point.getY() < IMAGES_HEIGHT)
+      {
+	//hides any previous highlighting
+        kitty.hideHighlight();
+        duck.hideHighlight();
+        puppy.hideHighlight();
+        lion.hideHighlight();
+        cow.hideHighlight();
+        lamb.hideHighlight();
+	chicken.hideHighlight();
+	turkey.hideHighlight();
+	mouse.hideHighlight();
+        
+	//shows a red border indicating an incorrect answer around the image
+	if (kitty.contains(point))
+	{	
+	  kitty.showHighlight(Color.RED);
+	}
+	else if (duck.contains(point))
+	{
+	  duck.showHighlight(Color.RED);
+	}
+	else if (puppy.contains(point))
+	{
+          puppy.showHighlight(Color.RED);
+	}
+	else if (lion.contains(point))
+	{
+	  lion.showHighlight(Color.RED);
+	}
+	else if (cow.contains(point))
+	{	
+	  cow.showHighlight(Color.RED);
+	}
+	else if (lamb.contains(point))
+	{
+	  lamb.showHighlight(Color.RED);
+	}
+	else if (chicken.contains(point))
+	{
+	  chicken.showHighlight(Color.RED);
+	}
+	else if (turkey.contains(point))
+	{
+	  turkey.showHighlight(Color.RED);
+	}
+	else if (mouse.contains(point))
+	{
+	  mouse.showHighlight(Color.RED);
+	}
+
+	//shows text indicating an incorrect answer
+        incorrect.show();
+	incorrect.moveTo((canvas.getWidth() - incorrect.getWidth()) / HALF,
+	  	         canvas.getHeight() - PIXELS_FROM_BOTTOM_2);
+        incorrect.setColor(Color.RED);
+      }
+
+      //if whitespace (the space below the images) is being pressed on
+      else if(point.getY() >= IMAGES_HEIGHT)
+      {
+	//all highlights are hidden
+        kitty.hideHighlight();
+        duck.hideHighlight();
+        puppy.hideHighlight();
+        lion.hideHighlight();
+        cow.hideHighlight();
+        lamb.hideHighlight();
+        chicken.hideHighlight();
+        turkey.hideHighlight();
+	mouse.hideHighlight();
+
+	//hides the text indicating a correct or incorrect answer
+	incorrect.hide();
+	correct.hide();
+      }
+    }
+
+    //checks if the user has answered correctly
+    else if(isCorrect)
+    {
+      //resets the canvas and asks a new question
+      animal.hideHighlight();
+      correct.hide();
+      question.removeFromCanvas();
+      
+      //chooses a new animal
+      pickAnAnimal();
+      
+      //creates the question text
+      question = new Text("Which animal says " + animal.speak() + "?", 1,
+		         1, canvas);
+      //centers the text
+      question.moveTo((canvas.getWidth() - question.getWidth()) / HALF,
+		      canvas.getHeight() - PIXELS_FROM_BOTTOM);
+
+      //allows the user to answer the new question
+      isCorrect = false;
+    }
+
+  }
+
+  /*
+  * Name: mouseEntered
+  * Purpose: Needed for the program to compile.
+  * Parameters: evt - the mouse event
+  * Return: void
+  */
+  public void mouseEntered(MouseEvent evt)
+  {
+  }
+
+  /*
+  * Name: mouseExited
+  * Purpose: Needed for the program to compile.
+  * Parameters: evt - the mouse event
+  * Return: void
+  */
+  public void mouseExited(MouseEvent evt)
+  {
+  }
+
+} //end class AnimalSpeak

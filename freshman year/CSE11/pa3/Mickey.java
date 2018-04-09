@@ -1,0 +1,435 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: October 23, 2014
+* File: Mickey.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs
+* 
+* This program contains all the attributes and behaviors of a Mickey object.
+* The methods can be called to manipulate Mickey in various ways.
+*/
+import objectdraw.*;
+
+/*
+* Name: Mickey
+* Purpose: To define a Mickey object with various attributes and behaviors.
+*/
+public class Mickey
+{
+  private static final int FACE_RADIUS = 50;
+  private static final int EAR_RADIUS = 30;
+  // Center of each ear is this offset up and over (x and y) from center 
+  // of face
+  private static final int EAR_OFFSET = 50; 
+  
+  private static final int FACE_DIAMETER = FACE_RADIUS * 2;
+  private static final int EAR_DIAMETER = EAR_RADIUS * 2;
+  private static final int TWICE_FACE_DIAMETER = FACE_DIAMETER * 2;
+
+  private static final double HALF = 0.5; //used while repositioning Mickey to
+                                          //center of canvas  
+  
+  private FilledOval head;
+  private FilledOval rightEar, leftEar;
+
+  private int width;
+  private int height;
+
+  /*
+  * Name: Mickey
+  * Purpose: Initializes all variables within the Mickey object when it is
+  * created by taking in parameters
+  * Parameters: point - the point location where Mickey is created
+  *             canvas - the place where Mickey is drawn
+  */
+  public Mickey(Location point, DrawingCanvas canvas)
+  {
+    //creates new Mickey image
+    head = new FilledOval(point.getX() - FACE_RADIUS, 
+    point.getY() - FACE_RADIUS, FACE_DIAMETER, FACE_DIAMETER, canvas);
+     
+    rightEar = new FilledOval(point.getX() + EAR_OFFSET - EAR_RADIUS,
+    point.getY() - EAR_OFFSET - EAR_RADIUS, EAR_DIAMETER, EAR_DIAMETER,
+    canvas);
+     
+    leftEar = new FilledOval(point.getX() - EAR_OFFSET - EAR_RADIUS,
+    point.getY() - EAR_OFFSET - EAR_RADIUS, EAR_DIAMETER, EAR_DIAMETER,
+    canvas);
+  }
+
+  /*
+  * Name: inRightEar
+  * Purpose: Checks if a point is inside the right ear
+  * Parameters: point - a point location on the canvas
+  * Return: boolean
+  */
+  public boolean inRightEar(Location point)
+  {
+    //true if the point is inside the right ear, false if not
+    return rightEar.contains(point);
+  }
+
+  /*
+  * Name: inLeftEar
+  * Purpose: Checks if a point is inside the left ear
+  * Parameters: point - a point location on the canvas
+  * Return: boolean
+  */
+  public boolean inLeftEar(Location point)
+  {
+    //true if the point is inside the left ear, false if not
+    return leftEar.contains(point);
+  }
+
+  /*
+  * Name: inHead
+  * Purpose: Checks if a point is inside the head
+  * Parameters: point - a point location
+  * Return: boolean
+  */
+  public boolean inHead(Location point)
+  {
+    //true if the point is inside the head, false if not
+    return head.contains(point);
+  }
+
+  /*
+  * Name: isFlippedRight
+  * Purpose: Checks if a Mickey object has been flipped right
+  * Parameters: none
+  * Return: boolean
+  */
+  public boolean isFlippedRight()
+  {
+    if(leftEar.getX() > rightEar.getX())
+    {
+      return true; //if Mickey has been flipped right
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  /*
+  * Name: isFlippedLeft
+  * Purpose: Checks if a Mickey object has been flipped left
+  * Parameters: none
+  * Return: boolean
+  */
+  public boolean isFlippedLeft()
+  {
+    if(rightEar.getX() < leftEar.getX())
+    {
+      return true; //if Mickey has been flipped left
+    }
+    else
+    {
+      return false;
+    }
+  }
+      
+  /*
+  * Name: isUpsideDown
+  * Purpose: Checks if a Mickey object has been flipped upside down
+  * Parameters: none
+  * Return: boolean
+  */
+  public boolean isUpsideDown()
+  {
+    if (leftEar.getY() > head.getY())
+    {
+      return true; //if Mickey is upside down
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  /*
+  * Name: isOriginalPosition
+  * Purpose: Checks if Mickey is in the original upright position
+  * Parameters: none
+  * Return: boolean
+  */
+  public boolean isOriginalPosition()
+  {
+    if (leftEar.getX() < rightEar.getX())
+    {
+      return true; //if Mickey is in the upright position
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  /*
+  * Name: isPosition1
+  * Purpose: Checks if Mickey is in "position 1" (right ear is above left ear)
+  * Parameters: none
+  * Return: boolean
+  */
+  public boolean isPosition1()
+  {
+    if (leftEar.getY() > rightEar.getY())
+    {
+      return true; //if Mickey's right ear is above the left ear
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  /*
+  * Name: isPosition2
+  * Purpose: Checks if Mickey is in "position 2" (upside down Mickey)
+  * Parameters: none
+  * Return: boolean
+  */
+  public boolean isPosition2()
+  {
+    if (leftEar.getX() > rightEar.getX())
+    {
+      return true; //if Mickey is upside down
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  /*
+  * Name: isPosition3
+  * Purpose: Checks if Mickey is in "position 3" (left ear is above right ear)
+  * Parameters: none
+  * Return: boolean
+  */
+  public boolean isPosition3()
+  {
+    if (leftEar.getY() < rightEar.getY())
+    {
+      return true; //if Mickey's left ear is above the right ear
+    }
+    else
+    {
+      return false;
+    }
+  }
+    
+  /*
+  * Name: flipUpsideDown
+  * Purpose: Flips a Mickey object upside down
+  * Parameters: none
+  * Return: void
+  */
+  public void flipUpsideDown()
+  {
+    rightEar.move(0, FACE_DIAMETER);
+    leftEar.move(0, FACE_DIAMETER);
+  }
+ 
+  /*
+  * Name: flipRightsideUp
+  * Purpose: Flips a Mickey object rightside up
+  * Parameters: none
+  * Return: void
+  */
+  public void flipRightsideUp()
+  {
+    rightEar.move(0, -FACE_DIAMETER);
+    leftEar.move(0, -FACE_DIAMETER);
+  }
+
+  /*
+  * Name: flipRight
+  * Purpose: Flips a Mickey object over the right ear (with respect to
+  * the face).
+  * Parameters: none
+  * Return: void
+  */
+  public void flipRight()
+  {
+    head.move(FACE_DIAMETER, 0);
+    leftEar.move(TWICE_FACE_DIAMETER, 0);
+  }
+ 
+  /*
+  * Name: flipLeft
+  * Purpose: Flips a Mickey object over the left ear (with respect to
+  * the face).
+  * Parameters: none
+  * Return: void
+  */
+  public void flipLeft()
+  {
+    head.move(-FACE_DIAMETER, 0);
+    rightEar.move(-TWICE_FACE_DIAMETER, 0);
+  }
+
+  /*
+  * Name: flipRight2
+  * Purpose: Flips a Mickey object over the right ear (with respect to
+  * the face).
+  * Parameters: none
+  * Return: void
+  */
+  public void flipRight2()
+  {
+    head.move(FACE_DIAMETER, 0);
+    rightEar.move(TWICE_FACE_DIAMETER, 0);
+  }
+ 
+  /*
+  * Name: flipLeft2
+  * Purpose: Flips a Mickey object over the left ear (with respect to
+  * the face).
+  * Parameters: none
+  * Return: void
+  */
+  public void flipLeft2()
+  {
+    head.move(-FACE_DIAMETER, 0);
+    leftEar.move(-TWICE_FACE_DIAMETER, 0);
+  }
+
+  /*
+  * Name: rotateCounterClockwise
+  * Purpose: Rotates Mickey 90 degrees counterclockwise
+  * Parameters: none
+  * Return: void
+  */ 
+  public void rotateCounterClockwise()
+  {
+    head.move(0, -FACE_DIAMETER);
+    rightEar.move(-FACE_DIAMETER, -FACE_DIAMETER);
+  }
+
+  /*
+  * Name: rotateCounterClockwise2
+  * Purpose: Rotates Mickey 90 degrees counterclockwise
+  * Parameters: none
+  * Return: void
+  */ 
+  public void rotateCounterClockwise2()
+  {
+    head.move(-FACE_DIAMETER, 0);
+    rightEar.move(-FACE_DIAMETER, FACE_DIAMETER);
+  }
+  /*
+  * Name: rotateCounterClockwise3
+  * Purpose: Rotates Mickey 90 degrees counterclockwise
+  * Parameters: none
+  * Return: void
+  */ 
+  public void rotateCounterClockwise3()
+  {
+    head.move(0, FACE_DIAMETER);
+    rightEar.move(FACE_DIAMETER, FACE_DIAMETER);
+  }
+  /*
+  * Name: rotateCounterClockwise4
+  * Purpose: Rotates Mickey 90 degrees counterclockwise
+  * Parameters: none
+  * Return: void
+  */ 
+  public void rotateCounterClockwise4()
+  {
+    head.move(FACE_DIAMETER, 0);
+    rightEar.move(FACE_DIAMETER, -FACE_DIAMETER);
+  }
+  /*
+  * Name: rotateClockwise
+  * Purpose: Rotates Mickey 90 degrees clockwise
+  * Parameters: none
+  * Return: void
+  */ 
+  public void rotateClockwise()
+  {
+    head.move(0, -FACE_DIAMETER);
+    leftEar.move(FACE_DIAMETER, -FACE_DIAMETER);
+  }
+  /*
+  * Name: rotateClockwise2
+  * Purpose: Rotates Mickey 90 degrees clockwise
+  * Parameters: none
+  * Return: void
+  */ 
+  public void rotateClockwise2()
+  {
+    head.move(FACE_DIAMETER, 0);
+    leftEar.move(FACE_DIAMETER, FACE_DIAMETER);
+  }
+  /*
+  * Name: rotateClockwise3
+  * Purpose: Rotates Mickey 90 degrees clockwise
+  * Parameters: none
+  * Return: void
+  */ 
+  public void rotateClockwise3()
+  {
+    head.move(0, FACE_DIAMETER);
+    leftEar.move(-FACE_DIAMETER, FACE_DIAMETER);
+  }
+  /*
+  * Name: rotateClockwise4
+  * Purpose: Rotates Mickey 90 degrees clockwise
+  * Parameters: none
+  * Return: void
+  */ 
+  public void rotateClockwise4()
+  {
+    head.move(-FACE_DIAMETER, 0);
+    leftEar.move(-FACE_DIAMETER, -FACE_DIAMETER);
+  }
+  /*
+  * Name: reposition
+  * Purpose: Repositions Mickey to the center of the canvas and returns 
+  * Mickey to its original upright position
+  * Parameters: none
+  * Return: void
+  */ 
+  public void reposition(DrawingCanvas canvas)
+  {
+    //repositions Mickey to the center of the canvas
+    head.moveTo(canvas.getWidth() * HALF - FACE_RADIUS, canvas.getHeight() *
+		HALF - FACE_RADIUS);
+    leftEar.moveTo(canvas.getWidth() * HALF - EAR_OFFSET - EAR_RADIUS, 
+    canvas.getHeight() * HALF - EAR_OFFSET - EAR_RADIUS);
+    rightEar.moveTo(canvas.getWidth() * HALF + EAR_OFFSET - EAR_RADIUS,
+    canvas.getHeight() * HALF - EAR_OFFSET - EAR_RADIUS);
+  }
+
+  /*
+  * Name: moveMickey
+  * Purpose: Moves Mickey.
+  * Parameters: none
+  * Return: void
+  */
+  public void moveMickey(Location point, Location point2)
+  {
+    head.move(point.getX() - point2.getX(), point.getY() - 
+    point2.getY());
+    rightEar.move(point.getX() - point2.getX(), point.getY() - 
+    point2.getY());
+    leftEar.move(point.getX() - point2.getX(), point.getY() - 
+    point2.getY());
+  }
+
+  /*
+  * Name: hideMickey
+  * Purpose: Hides Mickey.
+  * Parameters: none
+  * Return: void
+  */
+  public void hideMickey()
+  {
+    head.hide();
+    leftEar.hide();
+    rightEar.hide();
+  }
+
+} //end class Mickey
+

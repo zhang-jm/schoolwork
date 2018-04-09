@@ -1,0 +1,186 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 11, 2014
+* File: ARectangle.java
+* Sources of Help: Christopher Cabreros (student), objectdraw docs,
+*                  Java API docs, PA10
+*
+* A class that defines a generic rectangle that can be manipulated.
+*/
+
+/*
+* Name: ARectangle
+* Purpose: Defines a generic rectangle
+*/
+public abstract class ARectangle extends Shape
+{
+  //upper left corner location of the rectangle
+  private Point upperLeft; 
+
+  //used in toString()
+  private static final String UPPERLEFT = new String("Upper Left Corner"); 
+
+  /*
+  * Name: ARectangle
+  * Purpose: No-arg constructor, creates a default, empty rectangle
+  * Parameters: none
+  */  
+  public ARectangle() 
+  {
+    //calls other constructor to set rectangle info
+    this(new String(), new Point()); 
+  }
+
+  /*
+  * Name: ARectangle
+  * Purpose: Creates a rectangle with a name and upper left corner x and y 
+  * locations
+  * Parameters: name - name of the rectangle
+  *             x - x value of the upper left corner point
+  *             y - y value of the upper left corner point
+  */ 
+  public ARectangle( String name, int x, int y ) 
+  { 
+    //calls other constructor to set rectangle info
+    this(name, new Point(x, y));
+  }
+
+  /*
+  * Name: ARectangle
+  * Purpose: Creates a rectangle with a name and upper left corner point
+  * Parameters: name - name of the rectangle
+  *             upperLeft - upper left corner point of the rectangle
+  */ 
+  public ARectangle( String name, Point upperLeft ) 
+  {
+    //sets info of rectangle
+    super(name);
+    this.setUpperLeft(upperLeft);
+  }
+
+  /*
+  * Name: ARectangle
+  * Purpose: Copy constructor; creates a new rectangle based on the 
+  * name and upper left corner of an original rectangle
+  * Parameters: r - the rectangle to make a copy of
+  */ 
+  public ARectangle( ARectangle r ) 
+  {
+    this(new String(r.getName()), new Point(r.getUpperLeft()));
+  }
+
+  /*
+  * Name: getUpperLeft
+  * Purpose: Returns the upper left corner point of the rectangle
+  * Parameters: none
+  * Return: Point
+  */ 
+  public Point getUpperLeft()
+  {
+    return this.upperLeft;
+  }
+
+  /*
+  * Name: getName
+  * Purpose: Returns the name of the rectangle
+  * Parameters: none
+  * Return: String
+  */ 
+  public String getName()
+  {
+    //returns the name of the rectangle (stored in superclass Shape)	  
+    return super.getName();
+  }
+
+  /*
+  * Name: setUpperLeft
+  * Purpose: Sets the upper left corner point of the rectangle
+  * Parameters: upperLeft - the point that will be set to the upper left
+  * corner of the rectangle
+  * Return: void
+  */ 
+  private void setUpperLeft(Point upperLeft)
+  {
+    this.upperLeft = new Point(upperLeft);
+  }
+
+  /*
+  * Name: move
+  * Purpose: Moves the rectangle
+  * Parameters: xDelta - the amount to move the rectangle in the x direction
+  *             yDelta - the amount to move the rectangle in the y direction
+  * Return: void
+  */ 
+  public void move( int xDelta, int yDelta ) 
+  {
+    this.getUpperLeft().move(xDelta, yDelta);
+  }
+
+  /*
+  * Name: toString
+  * Purpose: Returns the name of the rectangle and the location of its 
+  * upper left corner point in a string
+  * Parameters: none
+  * Return: String
+  */   
+  @Override
+  public String toString() 
+  {
+    //example return statement - 
+    //"Rectangle: Upper Left Corner: Point: (0, 0) "
+    return this.getName() + ": " + UPPERLEFT + ": " + 
+	   this.upperLeft.toString() + " ";
+  }
+
+  /*
+  * Name: equals
+  * Purpose: Checks if a rectangle and another object are equal 
+  * (same name and upper left corner point)
+  * Parameters: o - an object to check a rectangle to
+  * Return: boolean
+  */ 
+  @Override
+  public boolean equals( Object o ) 
+  {
+    if(o == null)
+    {
+      return false; //false if the object is null
+    }
+
+    else
+    {
+      if(o instanceof ARectangle) //if o is ARectangle
+      {
+        //checks if the two rectangles have the same name and the same
+	//upper left corner point    
+        if(((ARectangle)o).getName().equals(this.getName()) &&
+	   ((ARectangle)o).getUpperLeft().equals(this.getUpperLeft()))
+        {
+          return true;
+        }
+        else
+        {
+          return false; //false if not same name or upper left corner
+        }
+      }
+      else
+      {
+        return false; //false if o is not ARectangle
+      }
+    }
+  }
+
+  /*
+  * Name: hashCode
+  * Purpose: Returns an int representing the rectangle
+  * Parameters: none
+  * Return: int
+  */     
+  @Override
+  public int hashCode() 
+  {
+    return this.toString().hashCode(); //uses String's hashCode method
+  }
+}
+

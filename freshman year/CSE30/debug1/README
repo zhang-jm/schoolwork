@@ -1,0 +1,69 @@
+Name: Jamie Zhang
+ID: cs30xgo
+
+Compilation Errors
+1) Error: In "reverse.s", line 29: location counter not on word boundary
+   Fix:	I needed to add a .section ".text" at the top of the file 
+	because I was still in the data section.
+	File: reverse.s
+	Line #: 13
+	New code: .section ".text"
+
+
+2) Error: In "reverse.o": symbol .data (section): value 0x21144 does not fit
+   Fix: Instead of using mov palStr, %o0, I needed to use the set command
+        because the value 0x21144 (palStr) is too large.
+	File: reverse.s
+	Line #: 73
+	New code: set palStr, %o0
+	
+
+Runtime Errors
+1) Error: Segfault
+   Fix: In the save statement in "reverse.s", there was a negative missing.
+        So, it said save %sp, (92 + 4) & -8, %sp instead of 
+	save %sp, -(92 + 4) & -8, %sp.
+	File: reverse.s
+	Line #: 31
+	New code: save	%sp, -(92 + 4) & -8, %sp
+
+
+
+2) Error: Another segfault
+   Fix: We need to use ldub to load a byte in the string in findEnd instead
+        of using ld. 
+	File: findEnd.s
+	Line #: 31, 42
+	New code: ldub	[%i0], %l0
+
+3) Error: Bus Error
+   Fix: No save statement in findEnd.
+	File: findEnd.s
+	Line #: 25
+	New code: save   %sp, -96, %sp
+
+
+4) Error: More segfaults
+   Fix: It said that we needed to decrement endPtr, but instead of subtracting
+        1 from endPtr to decrement it, we were adding 1 to it.
+	File: reverse.s
+	Line #: 59
+	New code: sub   %l2, 1, %l2
+
+
+5) Error: Program thinks every input is a palindrome.
+   Fix: We needed a nop after the ba in swapChars.s. Without it, the program
+        always executes the line after it, which is to set the return value 
+	to 1. Because of this, we are always finding that all the characters
+	are the same, so we always get a palindrome.
+	File: swapChars.s
+	Line #: 45
+	New code: nop
+
+
+6) Error: If we input a sentence, we never check the words after the first word.
+   Fix: Instead of setting char * str to be argv[1], which will always get the 
+        first arg/first word, we set it to i in the for loop.
+	File: main.c
+	Line #: 42
+	New code: char * str = argv[i];

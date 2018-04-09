@@ -1,0 +1,10 @@
+
+Short Response:
+1) You can jump to a specific line in vim by using the command 
+":[insert line number]". So, if you wanted to go to line 20, you would type 
+the command ":20". Alternatively, you could type "[insert line number]G"
+(example: 20G).
+2) The command to set auto-indentation is ":set autoindent". The command to 
+turn off auto-indentation is ":set noautoindent".
+3) The command to undo changes is simply "u".
+4) 

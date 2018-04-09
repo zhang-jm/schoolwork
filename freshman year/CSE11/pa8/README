@@ -1,0 +1,63 @@
+Name: Jamie Zhang
+ID: cs11fmd
+Date: November 26, 2014
+File: README
+Sources of Help: Google
+
+Program Description:
+CS11Turtle_Threaded
+This program can be run from the terminal.
+The user can run this program by first opening the terminal, entering the
+directory using the command "cd pa8", compiling the program using the command
+"javac -cp ./turtleClasses.jar:. CS11Turtle_Threaded.java"
+and finally running the program using the command
+"java -cp ./turtleClasses.jar:. CS11Turtle_Threaded".
+
+When the file is run, the user watches as multiple turtles draw the words
+"CS11FMD FALL 2014" on three lines, as well as a background, at the
+same time. 
+
+
+Rational:
+This program can be run in the terminal.
+The user can run this program by first opening the terminal, entering the
+directory using the command "cd pa8", compiling the program using the command
+"javac Rational.java",
+and finally running the program using the command
+"java Rational".
+The user can also use the provided files "TestRational.java" and 
+"EC_TestRational.java" to run and test the Rational class. To do this, the
+user replaces "Rational" in "Rational.java" with either "TestRational" or
+"EC_TestRational".
+
+The Rational program creates a Rational object that has a numerator and 
+denominator. The user can manipulate the Rational objects to do basic
+operations such as adding, subtracting, multiplying, and dividing. The user
+can also find the reciprocal of the Rational object, and change the
+Rational object into a whole object rounding both up and down.
+
+
+Short Answer: 
+1) cat -b readFile (numbers non-blank output lines) or 
+   cat -n readFile (numbers all output lines)
+2) cat -eT readFile
+   -e shows end of line
+   -T shows tabs
+   tabs are indicated with "^I"
+   end of line is indicated with "$"
+   You can tell if there's trailing whitespace if there is whitespace after
+   the end of the text/code and before the "$" that indicates the end of the 
+   line.
+3) nl readFile
+   1) spaces (?)
+   2) tab
+4) :set number
+5) :set list
+   tabs are indicated with "^I"
+   end of line is indicated with "$"
+   You can tell if there's trailing whitespace if there is whitespace after
+   the end of the text/code and before the "$" that indicates the end of the 
+   line.
+6) :%s/fun/amazing/g to replace all instances
+   :%s/fun/amazing to replace only the first instance in each line
+

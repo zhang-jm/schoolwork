@@ -1,0 +1,110 @@
+import java.awt.Color;
+import objectdraw.*;
+
+public class ResizablePacManController extends WindowController
+{
+  private Line horizLine, vertLine;
+  private double widthProportion = 0.5, heightProportion = 0.5;
+
+  //size of PacMan before growing or shrinking; start size
+  private double pacManSize = 30;
+
+  private Location horizLineStart;
+  private Location vertLineStart;
+
+  private double canvasWidth;
+  private double canvasHeight;
+  private static final double HALF = 0.5;
+  
+  //lines cannot move past this amount on the canvas
+  private static final int LINE_PADDING = 5;
+
+  private boolean horizIsClicked = false;
+  private boolean vertIsClicked = false;
+  private boolean bothClicked = false;
+
+
+  public void begin()
+  {
+    horizLine = new Line(0, canvas.getHeight() * HALF, canvas.getWidth(), 
+		         canvas.getHeight() * HALF, canvas);
+    vertLine = new Line (canvas.getWidth() * HALF, 0, canvas.getWidth() * HALF, 
+		         canvas.getHeight(), canvas);
+    
+    horizLineStart = horizLine.getStart();
+    vertLineStart = vertLine.getStart();
+
+    widthProportion = vertLineStart.getX() / canvas.getWidth();
+    heightProportion = horizLineStart.getY() / canvas.getHeight();
+  }
+
+  public void paint(java.awt.Graphics g)
+  {
+    super.paint(g);
+    horizLine.setStart(0, canvas.getHeight() * heightProportion);
+    horizLine.setEnd(canvas.getWidth(), canvas.getHeight() * heightProportion);
+    vertLine.setStart(canvas.getWidth() * widthProportion, 0);
+    vertLine.setEnd(canvas.getWidth() * widthProportion, canvas.getHeight());
+  }
+
+  public void onMousePress(Location point)
+  {
+    if (horizLine.contains(point) && vertLine.contains(point))
+    {
+      bothClicked = true;
+    }
+    else if(horizLine.contains(point))
+    {
+      horizIsClicked = true;
+    }
+    else if (vertLine.contains(point))
+    {
+      vertIsClicked = true;
+    }
+  }
+
+  public void onMouseRelease(Location point)
+  {
+    horizIsClicked = false;
+    vertIsClicked = false;
+    bothClicked = false;
+  }
+
+  public void onMouseDrag(Location point)
+  {
+    if(point.getX() > LINE_PADDING && 
+       point.getX() < canvas.getWidth() - LINE_PADDING &&
+       point.getY() > LINE_PADDING &&
+       point.getY() < canvas.getHeight() - LINE_PADDING)
+    {
+      if(vertIsClicked)
+      {
+        vertLine.setStart(point.getX(), 0);
+        vertLine.setEnd(point.getX(), canvas.getHeight());
+      }
+      else if(horizIsClicked)
+      {
+        horizLine.setStart(0, point.getY());
+        horizLine.setEnd(canvas.getWidth(), point.getY());
+      }
+      else if(bothClicked)
+      {
+        horizLine.setStart(0, point.getY());
+        horizLine.setEnd(canvas.getWidth(), point.getY());  
+        vertLine.setStart(point.getX(), 0);
+        vertLine.setEnd(point.getX(), canvas.getHeight());
+      }
+
+      horizLineStart = horizLine.getStart();
+      vertLineStart = vertLine.getStart();
+
+      widthProportion = vertLineStart.getX() / canvas.getWidth();
+      heightProportion = horizLineStart.getY() / canvas.getHeight();
+    }
+  }
+
+  public void onMouseClick(Location point)
+  {
+    new ResizablePacMan(point, pacManSize, canvas, horizLine, vertLine);
+  }
+}

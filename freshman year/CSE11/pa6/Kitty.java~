@@ -1,0 +1,111 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: November 11, 2014
+* File: Kitty.java
+* Sources of Help: PA6 instructions, objectdraw docs, Java API docs
+* 
+* This program contains all the attributes and behaviors of a Kitty object.
+* The constructor can be called to create a new Kitty object and the methods
+* can be called to manipulate the Kitty object in various ways.
+*/
+
+import objectdraw.*;
+import java.awt.*;
+import java.awt.Color; 
+
+/*
+* Name: Kitty
+* Purpose: To define a Kitty object with various attributes and behaviors.
+*/
+public class Kitty implements AnimalCard
+{
+  private static final String KITTY_SPEECH = "Meow";
+
+  private static final int PADDING = 2;
+
+  VisibleImage image;
+  FramedRect highlight;
+  FramedRect highlight2;
+
+  /*
+  * Name: Kitty
+  * Purpose: Initializes all variables within a Kitty object when it is 
+  * created.
+  */
+  public Kitty(Image image, Location origin, DrawingCanvas canvas)
+  {
+    Location origin2 = new Location(origin.getX() + 1, origin.getY() + 1);
+
+    //creates the kitty image and the highlight
+    this.image = new VisibleImage(image, origin, canvas);
+  
+    highlight = new FramedRect(origin, this.image.getWidth() - 1, 
+		                this.image.getHeight() - 1, canvas);
+    highlight2 = new FramedRect(origin2, this.image.getWidth() - PADDING - 1, 
+		     this.image.getHeight() - PADDING - 1, canvas);
+    
+    highlight.hide();
+    highlight2.hide();
+  }
+
+  /*
+  * Name: speak
+  * Purpose: Returns the sound a kitty makes.
+  * Parameters: none
+  * Return: String
+  */
+  public String speak()
+  {
+    return KITTY_SPEECH;
+  }
+
+  /*
+  * Name: contains
+  * Purpose: Checks if a point is within the Kitty image.
+  * Parameters: point - a point on the canvas
+  * Return: boolean
+  */
+  public boolean contains(Location point)
+  {
+    return image.contains(point);
+  }
+
+  /*
+  * Name: showHighlight
+  * Purpose: Shows the highlighted box around the Kitty image.
+  * Parameters: color - the color of the box
+  * Return: void
+  */
+  public void showHighlight(Color color)
+  {
+    highlight.setColor(color);
+    highlight2.setColor(color);
+    highlight.show();
+    highlight2.show();
+  }
+
+  /*
+  * Name: hideHighlight
+  * Purpose: Hides the highlighted box around the Kitty image.
+  * Parameters: none
+  * Return: void
+  */
+  public void hideHighlight()
+  {
+    highlight.hide();
+    highlight2.hide();
+  }
+
+  /*
+  * Name: getHighlightColor
+  * Purpose: Gets the highlight color.
+  * Parameters: none
+  * Return: Color
+  */
+  public Color getHighlightColor()
+  {
+    return highlight.getColor();
+  }
+}
+

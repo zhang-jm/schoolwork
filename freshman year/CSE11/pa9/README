@@ -1,0 +1,37 @@
+/*
+* Name: Jamie Zhang
+* Login: cs11fmd
+* Date: December 4, 2014
+* File: README
+* Sources of Help: Google
+*/
+
+Program Description:
+This program can be run from the terminal.
+The user can run this program by first opening the terminal, entering the
+directory using the command "cd pa9", compiling the program using the command
+"javac -cp ./objectdraw.jar:. CrittersController.java"
+and finally running the program using the command
+"appletviewer CrittersController.html".
+
+This program sets up a GUI with various buttons.
+The user can add different critters onto the canvas.
+When started, the user is prompted to add two or more critters.
+The user can add a critter by choosing the critter they want 
+to add from the buttons, and then clicking on the canvas to place the critter.
+If the stop button is not pressed, after two critters are placed, the critters
+will move based which critter they are.
+Chasers will chase after any critter that is not a chaser.
+Runners will run away from any other critter.
+Randoms will move randomly (not based on other critters).
+
+
+Short Answer:
+1) make a new class for each shape
+   have a method to set color in each shape class
+2) interfaces use implement keyword, abstract classes use extend keyword
+   abstract classes can have method implementations while interfaces can't                 
+3) they can both have abstract methods without implementation
+   they are both part of a hierarchy
+4) gvim -o *.java 
+5) mkdir -p fooBar/barDir
